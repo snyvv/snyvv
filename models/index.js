@@ -88,11 +88,9 @@ if(process.env.MIG == 'YES'){
 			});
 		});
 
-  promise = promise.then(()=>{
-  	console.log('* migration end, need to restart without MIG=YES');
-  	return knex.raw('set FOREIGN_KEY_CHECKS=1');
-  });
+	promise = promise.then(()=>{
+		console.log('* migration end, need to restart without MIG=YES');
+		return knex.raw('set FOREIGN_KEY_CHECKS=1');
+	});
 
 }
-
-
