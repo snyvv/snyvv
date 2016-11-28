@@ -1,6 +1,7 @@
 var path = require('path');
 var config = require('../config');
 var fs = require('fs');
+var moment = require('moment');
 // 어플리케이션 처음에 DB에 연결하고 BookShelf 객체를 돌려주는 곳이 필요
 
 let dbConfig = {
@@ -133,12 +134,69 @@ if(process.env.MIG == 'YES'){
 			});
 		});
 
-/*
 	promise = promise.then(()=>{
 		console.log("* dummy data *");
-		return
-	});	
-*/
+		return Promise.all([
+				models.User.create({
+					uid: "admin",
+					name:"관리자",
+					email:"test@test.com",
+					password:"11111111"
+				}),
+				models.User.create({
+					uid: "guest",
+					name:"손님",
+					email:"guest@guest.com",
+					password:"11111111"
+				})
+			]);
+		}).then(()=>{
+			console.log('create comments');
+			return Promise.all([
+				models.Comment.create({
+					name:"댓글러",
+					email:"guest2@guest.com",
+					password:"11111111",
+					comments:"hihi",
+					portfolio_id:1
+				}),
+				models.Comment.create({
+					user_id:1,
+					comments:"admin",
+					portfolio_id:1
+				})
+			]);
+		})
+		.then(()=>{
+			console.log('create portfolio');
+			return Promise.all([
+				models.Portfolio.create({
+					name:"포트폴리오1",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					user_id:1
+				}),
+				models.Portfolio.create({
+					name:"포트폴리오2",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					user_id:1
+				})
+			]);
+		})
+		.then(()=>{
+			return Promise.all([
+				models.Tag.create({
+					name:"tag1"
+				}),
+				models.Tag.create({
+					name:"tag2"
+				})
+			])
+		})
+		.catch(err=>{
+			console.log(err);
+		});
 
 	promise = promise.then(()=>{
 		console.log('* migration end, need to restart without MIG=YES');
