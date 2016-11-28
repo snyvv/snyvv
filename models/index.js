@@ -2,16 +2,25 @@ var path = require('path');
 var config = require('../config');
 
 // 어플리케이션 처음에 DB에 연결하고 BookShelf 객체를 돌려주는 곳이 필요
-var knex = require('knex')({
-	client: 'mysql',
-	connection: {
+
+let dbConfig = {
+  debug: process.env.QUERY=='YES',
+  client: 'mysql',
+  connection: {
 		host     : '127.0.0.1',
 		user     : config.username,
 		password : config.password,
 		database : config.database,
 		charset  : 'utf8'
   }
-});
+};
+
+if (process.env.MIG=='YES') {
+	dbConfig.pool = {max:1};
+}
+
+
+var knex = require('knex')(dbConfig);
 /*
 module.exports = require('bookshelf')(knex);
 
@@ -47,8 +56,11 @@ if(process.env.MIG == 'YES'){
 			.dropTableIfExists('portfolios')
 			.dropTableIfExists('comments')
 			.dropTableIfExists('tags')
+			.dropTableIfExists('portfolio_tags')
+
 			// 테이블생성
 			.createTable('users', (table) => {
+				console.log('* create table users');
 				table.increments('id').primary();
 				table.string('uid').notNullable().unique();
 				table.string('name').notNullable().unique();
@@ -57,6 +69,7 @@ if(process.env.MIG == 'YES'){
 				table.timestamps();
 			})
 			.createTable('portfolios', (table) => {
+				console.log('* create table portfolios');
 				table.increments('id').primary();
 				table.string('name').notNullable();
 				table.datetime('date').notNullable();
@@ -64,6 +77,7 @@ if(process.env.MIG == 'YES'){
 				table.timestamps();
 			})
 			.createTable('comments', (table) => {
+				console.log('* create table comments');
 				table.increments('id').primary();
 				table.string('comments').notNullable();
 				// not member
@@ -76,15 +90,17 @@ if(process.env.MIG == 'YES'){
 				table.timestamps();
 			})
 			.createTable('tags', (table) => {
+				console.log('* create table tags');
 				table.increments('id').primary();
 				table.string('name');
 			})
 			.createTable('portfolio_tags', (table) => { // pebut table
+				console.log('* create table portfolio_tags');
 				table.integer('portfolio_id').unsigned().references('portfolios.id').notNullable();
 				table.integer('tag_id').unsigned().references('tags.id').notNullable();
 			})
-			.then(() => {
-				console.log('* Create Table Complete===');
+			.catch(err=>{
+				console.log(err);
 			});
 		});
 
