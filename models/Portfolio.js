@@ -1,11 +1,13 @@
 const joi = require('joi');
 
 module.exports = {
-	tableName: 'tags',
+	tableName: 'portfolios',
 	hasTimestamps: true,
 	validate:{
 		name: joi.string(),
-		contetns: joi.string()
+		contents: joi.string(),
+    user_id : joi.number(),
+    date: joi.string()
 	},
 	tags: function(){
 		return this.belongsToMany('Tag');

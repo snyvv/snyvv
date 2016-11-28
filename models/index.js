@@ -78,7 +78,6 @@ if(process.env.MIG == 'YES'){
 		return knex.raw('set FOREIGN_KEY_CHECKS=0');
   });
 
-/*
   promise = promise.then(() => {
 		console.log('* dropping all tables');
 		return knex.schema
@@ -137,80 +136,68 @@ if(process.env.MIG == 'YES'){
 
 	promise = promise.then(()=>{
 		console.log("* dummy data *");
-			return Promise.all([
+		return Promise.all([
 				models.User.create({
-					uid:"snyvv",
-					name:"시녕이",
-					password:"zhdRkrwltlsud",
-					email:"snyvv88@gmail.com"
+					uid: "admin",
+					name:"관리자",
+					email:"test@test.com",
+					password:"11111111"
 				}),
 				models.User.create({
-					uid:"missahn",
-					name:"미스안",
-					password:"zhdRkrwltlsud",
-					email:"missahn@naver.com"
-				})
-			]);
-		}).then(()=>{
-			return Promise.all([
-				models.Portfolio.create({
-					name:"project1",
-					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
-					contents:"컨텐츠",
-					user_id:1
-				}),
-				models.Portfolio.create({
-					name:"project2",
-					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
-					contents:"컨텐츠2",
-					user_id:1
-				}),
-				models.Portfolio.create({
-					name:"project3",
-					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
-					contents:"컨텐츠3",
-					user_id:1
-				})
-			]);
-		}).then(()=>{
-			return Promise.all([
-				models.Comment.create({
-					comments:"제가 또 하나 배워갑니다.",
-					email:"good@gmail.com",
-					password:"goodgood",
-					name:"좋은사람",
-					portfolio_id:2
-				}),
-				models.Comment.create({
-					comments:"역시 좋네요!",
-					user_id:2,
-					portfolio_id:1
-				}),
-				models.Comment.create({
-					comments:"이 프로젝트 맘에드네요",
-					email:"verygood@gmail.com",
-					password:"goodgood",
+					uid: "guest",
 					name:"손님",
-					portfolio_id:1
+					email:"guest@guest.com",
+					password:"11111111"
 				})
 			]);
 		}).then(()=>{
+			console.log('create comments');
 			return Promise.all([
-				models.Tag.create({
-					name:"모션"
+				models.Comment.create({
+					name:"댓글러",
+					email:"guest2@guest.com",
+					password:"11111111",
+					comments:"hihi",
+					portfolio_id:1
 				}),
-				models.Tag.create({
-					name:"반응형웹"
-				}),
-				models.Tag.create({
-					name:"웹접근성"
+				models.Comment.create({
+					user_id:1,
+					comments:"admin",
+					portfolio_id:1
 				})
 			]);
-		}).catch(err => {
+		})
+		.then(()=>{
+			console.log('create portfolio');
+			return Promise.all([
+				models.Portfolio.create({
+					name:"포트폴리오1",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					user_id:1
+				}),
+				models.Portfolio.create({
+					name:"포트폴리오2",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					user_id:1
+				})
+			]);
+		})
+		.then(()=>{
+			return Promise.all([
+				models.Tag.create({
+					name:"tag1"
+				}),
+				models.Tag.create({
+					name:"tag2"
+				})
+			])
+		})
+		.catch(err=>{
 			console.log(err);
 		});
 
-*/
 	promise = promise.then(()=>{
 		console.log('* migration end, need to restart without MIG=YES');
 		return knex.raw('set FOREIGN_KEY_CHECKS=1');
