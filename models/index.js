@@ -34,48 +34,65 @@ const bookshelf = require('bookshelf')(knex)
 
 if(process.env.MIG == 'YES'){
 // 테이블이 있으면 없애고 테이블 생성하기.
-knex.schema
-.dropTableIfExists('users')
-.dropTableIfExists('portfolios')
-.dropTableIfExists('comments')
-.dropTableIfExists('tags')
-// 테이블생성
-.createTable('users', (table) => {
-	table.increments('id').primary();
-	table.string('uid').notNullable().unique();
-	table.string('name').notNullable().unique();
-	table.string('password').notNullable();
-	table.string('email').notNullable();
-	table.timestamps();
-})
-.createTable('portfolios', (table) => {
-	table.increments('id').primary();
-	table.string('name').notNullable();
-	table.datetime('date').notNullable();
-	table.integer('user_id').unsigned().references('users.id').notNullable(); // forign key for users
-	table.timestamps();
-})
-.createTable('comments', (table) => {
-	table.increments('id').primary();
-	table.string('comments').notNullable();
-	// not member
-	table.string('email');
-	table.string('password');
-	table.string('name');
-	// when member
-	table.integer('user_id').unsigned().references('users.id');
-	table.integer('portfolio_id').unsigned().references('portfolios.id');
-	table.timestamps();
-})
-.createTable('tags', (table) => {
-	table.increments('id').primary();
-	table.string('name');
-})
-.createTable('portfolio_tags', (table) => { // pebut table
-	table.integer('portfolio_id').unsigned().references('portfolios.id').notNullable();
-	table.integer('tag_id').unsigned().references('tags.id').notNullable();
-})
-.then(() => {
-	console.log('===Create Table Complete===');
-});
+
+  let promise = Promise.resolve().then(() => {
+		console.log('* migration begin');
+		return knex.raw('set FOREIGN_KEY_CHECKS=0');
+  });
+
+  promise = promise.then(() => {
+		console.log('* dropping all tables');
+		return knex.schema
+			.dropTableIfExists('users')
+			.dropTableIfExists('portfolios')
+			.dropTableIfExists('comments')
+			.dropTableIfExists('tags')
+			// 테이블생성
+			.createTable('users', (table) => {
+				table.increments('id').primary();
+				table.string('uid').notNullable().unique();
+				table.string('name').notNullable().unique();
+				table.string('password').notNullable();
+				table.string('email').notNullable();
+				table.timestamps();
+			})
+			.createTable('portfolios', (table) => {
+				table.increments('id').primary();
+				table.string('name').notNullable();
+				table.datetime('date').notNullable();
+				table.integer('user_id').unsigned().references('users.id').notNullable(); // forign key for users
+				table.timestamps();
+			})
+			.createTable('comments', (table) => {
+				table.increments('id').primary();
+				table.string('comments').notNullable();
+				// not member
+				table.string('email');
+				table.string('password');
+				table.string('name');
+				// when member
+				table.integer('user_id').unsigned().references('users.id');
+				table.integer('portfolio_id').unsigned().references('portfolios.id');
+				table.timestamps();
+			})
+			.createTable('tags', (table) => {
+				table.increments('id').primary();
+				table.string('name');
+			})
+			.createTable('portfolio_tags', (table) => { // pebut table
+				table.integer('portfolio_id').unsigned().references('portfolios.id').notNullable();
+				table.integer('tag_id').unsigned().references('tags.id').notNullable();
+			})
+			.then(() => {
+				console.log('* Create Table Complete===');
+			});
+		});
+
+  promise = promise.then(()=>{
+  	console.log('* migration end, need to restart without MIG=YES');
+  	return knex.raw('set FOREIGN_KEY_CHECKS=1');
+  });
+
 }
+
+
