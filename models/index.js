@@ -1,6 +1,6 @@
 var path = require('path');
 var config = require('../config');
-
+var fs = require('fs');
 // 어플리케이션 처음에 DB에 연결하고 BookShelf 객체를 돌려주는 곳이 필요
 
 let dbConfig = {
@@ -41,6 +41,34 @@ const bookshelf = require('bookshelf')(knex)
 	// npm install bookshelf-modelbase --save
 	.plugin(require('bookshelf-modelbase').pluggable);
 
+	// load models
+	let models = {};
+	let modelBuilders = {};
+	fs.readdirSync(__dirname).forEach(fileName => {
+	   if (path.join(__dirname, fileName) == __filename || fileName[0] == '.') return;
+
+	   let modelName = fileName.slice(0, -3);
+	   let modelBuilder = require(path.join(__dirname, fileName));
+
+	   if (modelBuilder.methods) {
+	      let methods = modelBuilder.methods;
+	      delete modelBuilder.methods;
+
+	      models[modelName] = bookshelf.model(modelName, modelBuilder);
+	      for (let k in methods) {
+	         models[modelName][k] = methods[k];
+	      }
+
+	   } else {
+	      models[modelName] = bookshelf.model(modelName, modelBuilder);
+	   }
+	   
+	});
+
+	models.transaction = knex.transaction;
+	models.query = knex.raw;
+	module.exports = models;
+
 if(process.env.MIG == 'YES'){
 // 테이블이 있으면 없애고 테이블 생성하기.
 
@@ -72,6 +100,7 @@ if(process.env.MIG == 'YES'){
 				console.log('* create table portfolios');
 				table.increments('id').primary();
 				table.string('name').notNullable();
+				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
 				table.integer('user_id').unsigned().references('users.id').notNullable(); // forign key for users
 				table.timestamps();
@@ -103,6 +132,13 @@ if(process.env.MIG == 'YES'){
 				console.log(err);
 			});
 		});
+
+/*
+	promise = promise.then(()=>{
+		console.log("* dummy data *");
+		return
+	});	
+*/
 
 	promise = promise.then(()=>{
 		console.log('* migration end, need to restart without MIG=YES');
