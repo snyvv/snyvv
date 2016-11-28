@@ -1,6 +1,7 @@
 var path = require('path');
 var config = require('../config');
 var fs = require('fs');
+var moment = require('moment');
 // 어플리케이션 처음에 DB에 연결하고 BookShelf 객체를 돌려주는 곳이 필요
 
 let dbConfig = {
@@ -77,6 +78,7 @@ if(process.env.MIG == 'YES'){
 		return knex.raw('set FOREIGN_KEY_CHECKS=0');
   });
 
+/*
   promise = promise.then(() => {
 		console.log('* dropping all tables');
 		return knex.schema
@@ -133,13 +135,82 @@ if(process.env.MIG == 'YES'){
 			});
 		});
 
-/*
 	promise = promise.then(()=>{
 		console.log("* dummy data *");
-		return
-	});	
-*/
+			return Promise.all([
+				models.User.create({
+					uid:"snyvv",
+					name:"시녕이",
+					password:"zhdRkrwltlsud",
+					email:"snyvv88@gmail.com"
+				}),
+				models.User.create({
+					uid:"missahn",
+					name:"미스안",
+					password:"zhdRkrwltlsud",
+					email:"missahn@naver.com"
+				})
+			]);
+		}).then(()=>{
+			return Promise.all([
+				models.Portfolio.create({
+					name:"project1",
+					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
+					contents:"컨텐츠",
+					user_id:1
+				}),
+				models.Portfolio.create({
+					name:"project2",
+					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
+					contents:"컨텐츠2",
+					user_id:1
+				}),
+				models.Portfolio.create({
+					name:"project3",
+					date:moment('2016-06-25 10:34:22').format('YYYY-MM-DD HH:mm:ss'),
+					contents:"컨텐츠3",
+					user_id:1
+				})
+			]);
+		}).then(()=>{
+			return Promise.all([
+				models.Comment.create({
+					comments:"제가 또 하나 배워갑니다.",
+					email:"good@gmail.com",
+					password:"goodgood",
+					name:"좋은사람",
+					portfolio_id:2
+				}),
+				models.Comment.create({
+					comments:"역시 좋네요!",
+					user_id:2,
+					portfolio_id:1
+				}),
+				models.Comment.create({
+					comments:"이 프로젝트 맘에드네요",
+					email:"verygood@gmail.com",
+					password:"goodgood",
+					name:"손님",
+					portfolio_id:1
+				})
+			]);
+		}).then(()=>{
+			return Promise.all([
+				models.Tag.create({
+					name:"모션"
+				}),
+				models.Tag.create({
+					name:"반응형웹"
+				}),
+				models.Tag.create({
+					name:"웹접근성"
+				})
+			]);
+		}).catch(err => {
+			console.log(err);
+		});
 
+*/
 	promise = promise.then(()=>{
 		console.log('* migration end, need to restart without MIG=YES');
 		return knex.raw('set FOREIGN_KEY_CHECKS=1');

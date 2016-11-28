@@ -1,30 +1,13 @@
 /* font */
-@font-face {
-	font-family: 'Noto Sans';
-	font-style: normal;
-	font-weight: 300;
-	src: local('Noto Sans Light'), local('NotoSans-Light'),
-	url(../fonts/NotoSans-Light.eot),
-	url(../fonts/NotoSans-Light.eot?#iefix) format('embedded-opentype'),
-	url(../fonts/NotoSans-Light.woff) format('woff'),
-	url(../fonts/NotoSans-Light.otf) format('opentype');
+@font-face {  font-family: 'jejuGothic';
+  font-style: normal;/* 폰트 명 */
+  font-weight: 100; /* 폰트 스타일 설정 */
+  src: url(../fonts/jejuGothic.eot);/* IE9 호환성 보기 */
+  src: local("☺"),/* 웹 브라우저가 지원하지 않는 불필요한 웹 폰트 호출을 막는데 사용 */
+       url(../fonts/jejuGothic.eot?#iefix) format('embedded-opentype'),/* IE6-IE8 */
+       url(../fonts/jejuGothic.woff2) format('woff2'),/* WOFF의 차기 포맷 */
+       url(../fonts/jejuGothic.woff) format('woff'),/* 표준 브라우저 */
+       url(../fonts/jejuGothic.ttf) format('truetype'),/* Safari, Android, iOS */
+       url(../fonts/jejuGothic.svg#jejuGothic) format('svg');/* TTF에서도 커버가 안되는 기기들에 대한 대응 */
 }
-@font-face {
-	font-family: 'Noto Sans';
-	font-style: normal;
-	font-weight: normal;
-	src: local('Noto Sans Regular'), local('NotoSans-Regular'),
-	url(../fonts/NotoSans-Regular.eot),
-	url(../fonts/NotoSans-Regular.eot?#iefix) format('embedded-opentype'),
-	url(../fonts/NotoSans-Regular.woff) format('woff'),
-	url(../fonts/NotoSans-Regular.otf) format('opentype');
-}
-
-body {
-	padding: 50px;
-	font: 14px "Noto Sans", Helvetica, Arial, sans-serif;
-}
-
-a {
-	color: #00B7FF;
-}
+body {font-family:'jejuGothic'}
