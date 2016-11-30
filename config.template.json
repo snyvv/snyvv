@@ -1,5 +1,7 @@
 {
 	"username" : "root",
 	"password" : "password",
-	"database" : "database_name"
+	"database" : "database_name",
+	"gamilID" : "your_gmail_id",
+	"gamilPW" : "your_gamil_password"
 }

@@ -83,6 +83,7 @@ if(process.env.MIG == 'YES'){
 		return knex.schema
 			.dropTableIfExists('users')
 			.dropTableIfExists('portfolios')
+			.dropTableIfExists('contacts')
 			.dropTableIfExists('comments')
 			.dropTableIfExists('tags')
 			.dropTableIfExists('portfolios_tags')
@@ -101,9 +102,19 @@ if(process.env.MIG == 'YES'){
 				console.log('* create table portfolios');
 				table.increments('id').primary();
 				table.string('name').notNullable();
+				table.string('image');
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
 				table.integer('user_id').unsigned().references('users.id').notNullable(); // forign key for users
+				table.timestamps();
+			})
+			.createTable('contacts', (table) => {
+				console.log('* create table contacts');
+				table.increments('id').primary();
+				table.enu('category', ['site','work','etc']);
+				table.string('name').notNullable();
+				table.string('email').notNullable();
+				table.string('contents').notNullable();
 				table.timestamps();
 			})
 			.createTable('comments', (table) => {
@@ -185,15 +196,34 @@ if(process.env.MIG == 'YES'){
 			return Promise.all([
 				models.Portfolio.create({
 					name:"포트폴리오1",
+					image:"/img/favicon.png",
 					contents:"컨텐츠입니다",
 					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 					user_id:1
 				}),
 				models.Portfolio.create({
 					name:"포트폴리오2",
+					image:"/img/visual.jpg",
 					contents:"컨텐츠입니다",
 					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 					user_id:1
+				})
+			]);
+		})
+		.then(()=>{
+			console.log('create contact');
+			return Promise.all([
+				models.Contact.create({
+					category:"etc",
+					name:"콩아지",
+					email:"kongkong@naver.com",
+					contents:"누나 사랑해요"
+				}),
+				models.Contact.create({
+					category:"site",
+					name:"미스안",
+					email:"missahn@naver.com",
+					contents:"힘내세요"
 				})
 			]);
 		})
@@ -201,7 +231,7 @@ if(process.env.MIG == 'YES'){
 				console.log('* many to many relation');
 				 return Promise.all([
 					 		models.Tag.forge({id:1}).portfolios().attach([result[0],result[1]]),
-					 		models.Tag.forge({id:1}).portfolios().attach(result[1])
+					 		models.Tag.forge({id:2}).portfolios().attach(result[1])
 				 ]);
 			})
 		.catch(err=>{

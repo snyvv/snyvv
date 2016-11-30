@@ -6,13 +6,13 @@
 	</div>
 
 	<div class="cont-wrap">
-		<form method="post" class="contact-form">
+		<form method="post" action="" class="contact-form">
 			<div class="item">
 				<label for="inpSort" class="inp-label">분류</label>
-				<select id="inpSort" class="select">
-					<option>사이트문의</option>
-					<option>작업문의</option>
-					<option>기타문의</option>
+				<select id="inpSort" class="select" name="category">
+					<option value="site">사이트문의</option>
+					<option value="work">작업문의</option>
+					<option value="etc">기타문의</option>
 				</select>
 			</div>
 			<div class="item">
@@ -22,10 +22,6 @@
 			<div class="item">
 				<label for="inpName" class="inp-label">이름</label>
 				<input type="text" id="inpName" class="inp-txt" name="name">
-			</div>
-			<div class="item">
-				<label for="inpPW" class="inp-label">비밀번호</label>
-				<input type="password" id="inpPW" class="inp-txt" name="password">
 			</div>
 			<div class="item">
 				<label for="inpEmail" class="inp-label">이메일</label>

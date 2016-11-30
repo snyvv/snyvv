@@ -2,15 +2,18 @@
 <div class="visual"></div>
 <section id="contents" class="contents">
 	<h2 class="hidden"><%= pageTitle %></h2>
-	<form>
+	<form method="post" action="">
 		<div class="item">
 			<label>아이디</label>
-			<input type="text" class="inp-txt">
+			<input type="text" class="inp-txt" name="uid">
 		</div>
 		<div class="item">
 			<label>비밀번호</label>
-			<input type="password" class="inp-txt">
+			<input type="password" class="inp-txt" name="password">
 		</div>
+		<% if (query.error) { %>
+		<p>로그인 정보를 다시 확인해 주세요.</p>
+		<% } %>
 		<input type="submit" class="btn btn-primary" value="로그인">
 	</form>
 </section>

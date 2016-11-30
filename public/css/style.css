@@ -61,6 +61,7 @@ input[type=reset]:focus{outline:1px dotted #1e90ff}
 /* form */
 .item{position:relative;}
 .inp-txt{height:36px;border:1px solid #d0d0d0;line-height:18px;padding:8px 10px;}
+.inp-txt[type=password]{font-family:'Arial',sans-serif;letter-spacing:1px;}
 textarea.inp-txt{height:100px;}
 .inp-txt:focus{border:1px solid #0275d8}
 
@@ -118,6 +119,9 @@ textarea.inp-txt{height:100px;}
 .cont-visual.contact{background:url(/img/visual_contact.jpg) no-repeat 50% 50%;background-size:cover;}
 .cont-tit{font-size:50px;color:#fff;line-height:70px;font-family:'Vernada';letter-spacing:1px;position:absolute;right:50%;bottom:20px;margin-right:-500px;}
 */
+
+.portfolio-list li{margin-top:10px;}
+.portfolio-list img{width:100px;}
 
 /* contact */
 .contact-form{width:800px;margin:0 auto;}

@@ -6,6 +6,7 @@ module.exports = {
 	validate:{
 		name: joi.string(),
 		contents: joi.string(),
+		image: joi.string(),
     user_id : joi.number(),
     date: joi.string()
 	},

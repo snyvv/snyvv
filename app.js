@@ -3,7 +3,9 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var models = require('./models');
+var moment = require('moment');
 
 var app = express();
 
@@ -16,6 +18,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+	secret: 'snyvv',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {secure: true}
+}));
+
+app.use((req, res, next)=>{
+	res.locals.query = req.query;
+	res.locals.moment = moment;
+	next();
+});
 
 app.use('/', require('./routes/index'));
 app.use('/about', require('./routes/about'));

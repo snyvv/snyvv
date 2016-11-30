@@ -2,12 +2,18 @@
 <div class="visual"></div>
 <section id="contents" class="contents">
 	<h2><%= pageTitle %></h2>
-	<ul>
+	<ul class="portfolio-list">
+		<% portfolios.forEach(data=>{ %>
 		<li>
-			title
-			date
-			img
+			<%= data.name %>
+			<img src="<%= data.image %>" alt="">
+			<%= moment(data.date).format('YYYY.MM.DD hh:mm'); %>
+			<%= data.author %>
+			<% data.tags.forEach(tag=>{ %>
+				<%= tag.name %>
+			<% }); %>
 		</li>
+		<% }); %>
 	</ul>
 </section>
 <% include common/footer %>
