@@ -200,7 +200,7 @@ if(process.env.MIG == 'YES'){
 		.then(result=>{
 				console.log('* many to many relation');
 				 return Promise.all([
-					 		models.Tag.forge({id:1}).portfolios().attach(result[0]),
+					 		models.Tag.forge({id:1}).portfolios().attach([result[0],result[1]]),
 					 		models.Tag.forge({id:1}).portfolios().attach(result[1])
 				 ]);
 			})
