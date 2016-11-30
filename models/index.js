@@ -85,7 +85,7 @@ if(process.env.MIG == 'YES'){
 			.dropTableIfExists('portfolios')
 			.dropTableIfExists('comments')
 			.dropTableIfExists('tags')
-			.dropTableIfExists('portfolio_tags')
+			.dropTableIfExists('portfolios_tags')
 
 			// 테이블생성
 			.createTable('users', (table) => {
@@ -124,7 +124,7 @@ if(process.env.MIG == 'YES'){
 				table.increments('id').primary();
 				table.string('name');
 			})
-			.createTable('portfolio_tags', (table) => { // pebut table
+			.createTable('portfolios_tags', (table) => { // pebut table
 				console.log('* create table portfolio_tags');
 				table.integer('portfolio_id').unsigned().references('portfolios.id').notNullable();
 				table.integer('tag_id').unsigned().references('tags.id').notNullable();
@@ -134,8 +134,10 @@ if(process.env.MIG == 'YES'){
 			});
 		});
 
+
 	promise = promise.then(()=>{
 		console.log("* dummy data *");
+		console.log("create users");
 		return Promise.all([
 				models.User.create({
 					uid: "admin",
@@ -168,6 +170,17 @@ if(process.env.MIG == 'YES'){
 			]);
 		})
 		.then(()=>{
+			console.log("create tags");
+			return Promise.all([
+				models.Tag.create({
+					name:"tag1"
+				}),
+				models.Tag.create({
+					name:"tag2"
+				})
+			])
+		})
+		.then(()=>{
 			console.log('create portfolio');
 			return Promise.all([
 				models.Portfolio.create({
@@ -184,16 +197,13 @@ if(process.env.MIG == 'YES'){
 				})
 			]);
 		})
-		.then(()=>{
-			return Promise.all([
-				models.Tag.create({
-					name:"tag1"
-				}),
-				models.Tag.create({
-					name:"tag2"
-				})
-			])
-		})
+		.then(result=>{
+				console.log('* many to many relation');
+				 return Promise.all([
+					 		models.Tag.forge({id:1}).portfolios().attach(result[0]),
+					 		models.Tag.forge({id:1}).portfolios().attach(result[1])
+				 ]);
+			})
 		.catch(err=>{
 			console.log(err);
 		});
@@ -204,3 +214,16 @@ if(process.env.MIG == 'YES'){
 	});
 
 }
+
+
+
+
+/*
+new User(req.body).save()
+    .then(function(user){
+     // this is important
+      return user.courses().attach(courses_ids);
+    }).catch(function(error){
+       console.log(error);
+    });
+*/
