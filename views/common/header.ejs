@@ -2,17 +2,23 @@
 <html>
 <head>
 <title><%= title %></title>
-<link rel='stylesheet' href='/css/style.css'>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="shortcut icon" href="/img/favicon.ico">
+<link rel="icon" href="img/favicon.png">
 </head>
 <body>
 <div class="wrap">
-	<header>
-		<h1><a href="/">snyvv</a></h1>
-		<nav>
+	<a href="#contents" class="skip-menu">본문 바로가기</a>
+	<header class="header">
+		<h1 class="tit"><a href="/"><span>웹퍼블리셔</span> 김신영</a></h1>
+		<!-- <button>메뉴열기</button> -->
+		<nav class="nav">
+			<h2 class="hidden">Navigation Menu</h2>
 			<ul>
-				<li><a href="">ABOUT</a></li>
-				<li><a href="">PORTFOLIO</a></li>
-				<li><a href="">CONTACT</a></li>
+				<li><a href="/about">ABOUT</a></li>
+				<li><a href="/portfolio">PORTFOLIO</a></li>
+				<li><a href="/contact">CONTACT</a></li>
+				<li><a href="/login">LOGIN</a></li>
 			</ul>
 		</nav>
 	</header>

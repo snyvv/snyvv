@@ -1,0 +1,43 @@
+<% include common/header %>
+<div class="visual"></div>
+<section id="contents" class="contents">
+	<div class="cont-visual contact">
+		<h2 class="cont-tit"><%= pageTitle %></h2>
+	</div>
+
+	<div class="cont-wrap">
+		<form method="post" class="contact-form">
+			<div class="item">
+				<label for="inpSort" class="inp-label">분류</label>
+				<select id="inpSort" class="select">
+					<option>사이트문의</option>
+					<option>작업문의</option>
+					<option>기타문의</option>
+				</select>
+			</div>
+			<div class="item">
+				<label for="inpCont" class="inp-label">내용</label>
+				<textarea id="inpCont" class="inp-txt" name="contents"></textarea>
+			</div>
+			<div class="item">
+				<label for="inpName" class="inp-label">이름</label>
+				<input type="text" id="inpName" class="inp-txt" name="name">
+			</div>
+			<div class="item">
+				<label for="inpPW" class="inp-label">비밀번호</label>
+				<input type="password" id="inpPW" class="inp-txt" name="password">
+			</div>
+			<div class="item">
+				<label for="inpEmail" class="inp-label">이메일</label>
+				<input type="email" id="inpEmail" class="inp-txt" name="email">
+			</div>
+
+			<div class="btn-set">
+				<div class="btn-right">
+					<input type="submit" value="보내기" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+<% include common/footer %>
