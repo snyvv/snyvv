@@ -5,7 +5,16 @@ var router = express.Router();
 router.get('/', (req, res, next)=>{
 	res.render('index',{
 		title: "웹퍼블리셔 김신영",
-		pageTitle : "HOME"
+		pageTitle: "홈",
+		pageName: "main"
+	});
+});
+
+router.post('/' (req, res, next)=>{
+	res.render('search',{
+		title: "keyword+ 검색결과 | 웹퍼블리셔 김신영",
+		pageTitle: "keyword 검색결과",
+		pageName: "search"
 	});
 });
 

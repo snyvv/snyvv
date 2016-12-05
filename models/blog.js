@@ -1,13 +1,11 @@
 const joi = require('joi');
 
 module.exports = {
-	tableName: 'portfolios',
+	tableName: 'blog',
 	hasTimestamps: true,
 	validate:{
-		name: joi.string(),
-		subname: joi.string(),
+		title: joi.string(),
 		contents: joi.string(),
-		image: joi.string(),
     date: joi.string()
 	},
 	tags: function(){

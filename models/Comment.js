@@ -9,6 +9,5 @@ module.exports = {
 		email: joi.string().email(),
 		comments: joi.string(),
 		portfolio_id: joi.number(),
-		user_id: joi.number()
 	}
 }

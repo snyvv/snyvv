@@ -1,17 +1,55 @@
 <% include common/header %>
-<div class="visual"></div>
 <section id="contents" class="contents">
-	<h2><%= pageTitle %></h2>
+	<h2 class="page-tit"><%= pageTitle %></h2>
+
+	<div class="list-util">
+		<button>카드형식으로 보기</button>
+		<button>목록형식으로 보기</button>
+		<button>목록 검색</button>
+	</div>
+
+	<form class="list-sorting">
+		<div class="item">
+			<label for="sortYear">연도</label>
+			<select id="sortYear" class="select" name="year">
+				<option value="all">전체</option>
+				<option value="2016">2016</option>
+				<option value="2015">2015</option>
+				<option value="2014">2014</option>
+				<option value="2013">2013</option>
+				<option value="2012">2012</option>
+				<option value="2011">2011</option>
+			</select>
+		</div>
+		<div class="item">
+			<label for="sortTag">태그</label>
+			<input type="text" id="sortTag" class="inp-txt" name="tag">
+		</div>
+		<div class="item">
+			<label for="sortKeyword">검색어</label>
+			<input type="text" id="sortKeyword" class="inp-txt" name="keyword">
+		</div>
+		<div class="sort"><input type="submit" value="검색"></div>
+	</form>
+
 	<ul class="portfolio-list">
 		<% portfolios.forEach(data=>{ %>
 		<li>
-			<%= data.name %>
-			<img src="<%= data.image %>" alt="">
-			<%= moment(data.date).format('YYYY.MM.DD hh:mm'); %>
-			<%= data.author %>
-			<% data.tags.forEach(tag=>{ %>
-				<%= tag.name %>
-			<% }); %>
+			<div class="txt">
+				<strong class="name"><%= data.name %></strong>
+				<em class="subname"><%= data.subname %></em>
+				<span class="date"><%= moment(data.date).format('YYYY.MM.DD'); %></span>
+				<div class="tags">
+					<% data.tags.forEach(tag=>{ %>
+						<span class="tag"><%= tag.name %></span>
+					<% }); %>
+				</div>
+				<span class="recomm">추천수</span>
+			</div>
+			<div class="img"><img src="<%= data.image %>" alt=""></div>
+
+			<img src="/img/square.gif" alt="">
+			<a href="" class="detail"><span class="view">자세히 보기</span></a>
 		</li>
 		<% }); %>
 	</ul>

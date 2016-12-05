@@ -1,0 +1,29 @@
+<% include common/header %>
+<section id="contents" class="contents">
+	<h2 class="page-tit"><%= pageTitle %></h2>
+	<div>
+		<input type="text" class="inp-txt inp-date" name="dateStart" title="검색 시작일 입력">
+		<input type="text" class="inp-txt inp-date" name="dateEnd" title="검색 종료일 입력">
+		<div class="item">
+			<label for="sortTag">태그</label>
+			<input type="text" id="sortTag" class="inp-txt" name="tag">
+		</div>
+		<div class="item">
+			<label for="sortKeyword">검색어</label>
+			<input type="text" id="sortKeyword" class="inp-txt" name="keyword">
+		</div>
+		<div class="sort"><input type="submit" value="검색"></div>
+	</div>
+
+	<ul>
+		<li>
+			<strong>title</strong>
+			<span>date</span>
+			<button>recomm</button>
+			<button>like</button>
+			<div>contents</div>
+			<div><span class="tag">tag</span></div>
+		</li>
+	</ul>
+</section>
+<% include common/footer %>

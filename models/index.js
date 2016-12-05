@@ -81,31 +81,22 @@ if(process.env.MIG == 'YES'){
   promise = promise.then(() => {
 		console.log('* dropping all tables');
 		return knex.schema
-			.dropTableIfExists('users')
 			.dropTableIfExists('portfolios')
 			.dropTableIfExists('contacts')
+			.dropTableIfExists('blog')
 			.dropTableIfExists('comments')
 			.dropTableIfExists('tags')
 			.dropTableIfExists('portfolios_tags')
 
 			// 테이블생성
-			.createTable('users', (table) => {
-				console.log('* create table users');
-				table.increments('id').primary();
-				table.string('uid').notNullable().unique();
-				table.string('name').notNullable().unique();
-				table.string('password').notNullable();
-				table.string('email').notNullable();
-				table.timestamps();
-			})
 			.createTable('portfolios', (table) => {
 				console.log('* create table portfolios');
 				table.increments('id').primary();
 				table.string('name').notNullable();
+				table.string('subname');
 				table.string('image');
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
-				table.integer('user_id').unsigned().references('users.id').notNullable(); // forign key for users
 				table.timestamps();
 			})
 			.createTable('contacts', (table) => {
@@ -117,6 +108,14 @@ if(process.env.MIG == 'YES'){
 				table.string('contents').notNullable();
 				table.timestamps();
 			})
+			.createTable('blog', (table) => {
+				console.log('* create table blog');
+				table.increments('id').primary();
+				table.string('title').notNullable();
+				table.string('contents').notNullable();
+				table.datetime('date').notNullable();
+				table.timestamps();
+			})
 			.createTable('comments', (table) => {
 				console.log('* create table comments');
 				table.increments('id').primary();
@@ -126,7 +125,6 @@ if(process.env.MIG == 'YES'){
 				table.string('password');
 				table.string('name');
 				// when member
-				table.integer('user_id').unsigned().references('users.id');
 				table.integer('portfolio_id').unsigned().references('portfolios.id');
 				table.timestamps();
 			})
@@ -134,6 +132,7 @@ if(process.env.MIG == 'YES'){
 				console.log('* create table tags');
 				table.increments('id').primary();
 				table.string('name');
+				table.string('eng');
 			})
 			.createTable('portfolios_tags', (table) => { // pebut table
 				console.log('* create table portfolio_tags');
@@ -148,34 +147,13 @@ if(process.env.MIG == 'YES'){
 
 	promise = promise.then(()=>{
 		console.log("* dummy data *");
-		console.log("create users");
+		console.log("create commnets");
 		return Promise.all([
-				models.User.create({
-					uid: "admin",
-					name:"관리자",
-					email:"test@test.com",
-					password:"11111111"
-				}),
-				models.User.create({
-					uid: "guest",
-					name:"손님",
-					email:"guest@guest.com",
-					password:"11111111"
-				})
-			]);
-		}).then(()=>{
-			console.log('create comments');
-			return Promise.all([
 				models.Comment.create({
 					name:"댓글러",
 					email:"guest2@guest.com",
 					password:"11111111",
 					comments:"hihi",
-					portfolio_id:1
-				}),
-				models.Comment.create({
-					user_id:1,
-					comments:"admin",
 					portfolio_id:1
 				})
 			]);
@@ -184,10 +162,20 @@ if(process.env.MIG == 'YES'){
 			console.log("create tags");
 			return Promise.all([
 				models.Tag.create({
-					name:"tag1"
+					name:"웹접근성",
+					eng:"web accessibility"
 				}),
 				models.Tag.create({
-					name:"tag2"
+					name:"패럴렉스 스크롤",
+					eng:"parallax scroll"
+				}),
+				models.Tag.create({
+					name:"반응형웹",
+					eng:"responsive web"
+				}),
+				models.Tag.create({
+					name:"제이쿼리",
+					eng:"jquery"
 				})
 			])
 		})
@@ -195,18 +183,45 @@ if(process.env.MIG == 'YES'){
 			console.log('create portfolio');
 			return Promise.all([
 				models.Portfolio.create({
-					name:"포트폴리오1",
-					image:"/img/favicon.png",
+					name:"삼성 갤럭시 S4",
+					subname:"Samsung GALAXY S4",
+					image:"/img/portfolio/@img1.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					user_id:1
+					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 				}),
 				models.Portfolio.create({
-					name:"포트폴리오2",
-					image:"/img/visual.jpg",
+					name:"파이라",
+					subname:"pyra",
+					image:"/img/portfolio/@img2.jpg",
 					contents:"컨텐츠입니다",
 					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					user_id:1
+				}),
+				models.Portfolio.create({
+					name:"국가식품클러스터",
+					subname:"FOODPOLIS",
+					image:"/img/portfolio/@img3.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+				}),
+				models.Portfolio.create({
+					name:"101 GLOBAL",
+					image:"/img/portfolio/@img4.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+				}),
+				models.Portfolio.create({
+					name:"삼성 갤럭시 메가",
+					subname:"Samsung GALAXY MEGA",
+					image:"/img/portfolio/@img5.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+				}),
+				models.Portfolio.create({
+					name:"맥시코시",
+					subname:"MAXICOSI",
+					image:"/img/portfolio/@img6.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 				})
 			]);
 		})

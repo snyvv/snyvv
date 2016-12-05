@@ -15,8 +15,9 @@ var smtpTransport = nodemailer.createTransport("SMTP", {
 /* get contact */
 router.get('/', (req, res, next)=>{
   res.render('contact',{
-		title: "CONTACT | 웹퍼블리셔 김신영",
-		pageTitle : "CONTACT"
+		title: "문의하기 | 웹퍼블리셔 김신영",
+		pageTitle : "문의하기",
+		pageName : "contact"
 	});
 });
 

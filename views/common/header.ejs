@@ -7,18 +7,31 @@
 <link rel="icon" href="img/favicon.png">
 </head>
 <body>
-<div class="wrap">
+<div class="wrap <%= pageName %>">
 	<a href="#contents" class="skip-menu">본문 바로가기</a>
 	<header class="header">
-		<h1 class="tit"><a href="/"><span>웹퍼블리셔</span> 김신영</a></h1>
+		<h1 class="tit"><a href="/"><span style="display:none">웹퍼블리셔</span> 김신영</a></h1>
 		<!-- <button>메뉴열기</button> -->
 		<nav class="nav">
 			<h2 class="hidden">Navigation Menu</h2>
 			<ul>
-				<li><a href="/about">ABOUT</a></li>
-				<li><a href="/portfolio">PORTFOLIO</a></li>
-				<li><a href="/contact">CONTACT</a></li>
-				<li><a href="/login">LOGIN</a></li>
+				<li><a href="/about">소개</a></li>
+				<li><a href="/portfolio">포트폴리오</a></li>
+				<li><a href="/contact">문의하기</a></li>
+				<li><a href="/blog">블로그</a></li>
 			</ul>
 		</nav>
+
+		<ul class="sns">
+			<li><a href="https://www.facebook.com/shinyeong.kim.92167" class="ico ico-facebook" target="_blank" title="새 창">김신영의 페이스북 바로가기</a></li>
+			<li><a href="https://www.instagram.com/snyvv/" class="ico ico-instagram" target="_blank" title="새 창">김신영의 인스타그램 바로가기</a></li>
+			<li><label for="searchAll" class="ico ico-search" title="검색">컨텐츠 검색하기</label></li>
+		</ul>
+
+		<form method="get" action="/search" class="search">
+			<div class="item">
+				<input type="text" id="searchAll" name="search" placeholder="검색어를 입력해주세요.">
+				<input type="submit" value="검색">
+			</div>
+		</form>
 	</header>
