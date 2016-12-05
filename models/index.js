@@ -92,7 +92,7 @@ if(process.env.MIG == 'YES'){
 			.createTable('portfolios', (table) => {
 				console.log('* create table portfolios');
 				table.increments('id').primary();
-				table.string('name').notNullable();
+				table.string('name').notNullable().unique();
 				table.string('subname');
 				table.string('image');
 				table.string('contents').notNullable();
