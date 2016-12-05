@@ -6,6 +6,11 @@ var moment = require('moment');
 /* get portfolio */
 router.get('/', (req, res, next)=>{
 	var tags = [];
+	var current = parseInt(moment().format('YYYY'));
+	var years = [];
+	for(var i = 2011;i<=current;i++)
+		years.push(i);
+
 	if(req.query.tag){
 		// tags is array
 		tags = (req.query.tag).split(',');
@@ -34,19 +39,19 @@ router.get('/', (req, res, next)=>{
 				title: "포트폴리오 | 웹퍼블리셔 김신영",
 				pageTitle: "포트폴리오",
 				pageName: "portfolio",
-				portfolios: result
+				portfolios: result,
+				years: years
 			});
 		});
 	});
 });
 
-<<<<<<< HEAD
 function searchContents(contents,keyword){
 	if(!!keyword){
 		return contents.match(keyword);
 	}
 	else 
-		return true;	
+		return true;
 }
 
 function searchDate(date,year){
@@ -62,7 +67,7 @@ function searchDate(date,year){
 
 function searchTag(tag,tags){
 	var result = tags.filter(data =>{
-		return data.name == tag || data.eng == tag;
+		return data.name == tag || data.eng.match(tag);
 	});
 	if (result.length == 0)
 		return false;
@@ -70,8 +75,6 @@ function searchTag(tag,tags){
 		return true;
 }
 
-=======
->>>>>>> 2d2fd622cb8bba53f38f1e660ba2d878d8f00ce5
 router.get('/:name',(req,res,next)=>{
 	models.Portfolio.findOne({name:req.params.name}).then(data=>{
 		res.render('portfolio_view',{

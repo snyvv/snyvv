@@ -13,23 +13,21 @@
 			<label for="sortYear">연도</label>
 			<select id="sortYear" class="select" name="year">
 				<option value="all">전체</option>
-				<option value="2016">2016</option>
-				<option value="2015">2015</option>
-				<option value="2014">2014</option>
-				<option value="2013">2013</option>
-				<option value="2012">2012</option>
-				<option value="2011">2011</option>
+				<% years.forEach(year=>{ %>
+					<option value="<%= year %>" <%= query.year==year?"selected":"" %>><%= year %></option>
+				<% }); %>
 			</select>
 		</div>
 		<div class="item">
 			<label for="sortTag">태그</label>
-			<input type="text" id="sortTag" class="inp-txt" name="tag" placeholder="전체 태그">
+			<input type="text" id="sortTag" class="inp-txt" name="tag" placeholder="전체 태그" value="<%=query.tag%>">
 		</div>
 		<div class="item">
 			<label for="sortKeyword">검색어</label>
-			<input type="text" id="sortKeyword" class="inp-txt" name="keyword">
+			<input type="text" id="sortKeyword" class="inp-txt" name="keyword" value="<%=query.keyword%>">
 		</div>
 		<div class="sort"><input type="submit" value="검색"></div>
+		<input type="reset" value="초기화">
 	</form>
 
 	<ul class="portfolio-list">
