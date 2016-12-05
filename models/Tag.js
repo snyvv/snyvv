@@ -9,5 +9,8 @@ module.exports = {
 	},
 	portfolios: function(){
 		return this.belongsToMany('Portfolio');
+	},
+	blogs: function(){
+		return this.belongsToMany('Blog');
 	}
 }

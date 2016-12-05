@@ -5,7 +5,6 @@ var moment = require('moment');
 
 /* get portfolio */
 router.get('/', (req, res, next)=>{
-
 	var tags = [];
 	if(req.query.tag){
 		// tags is array
@@ -32,15 +31,16 @@ router.get('/', (req, res, next)=>{
 		});		
 		models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
 			res.render('portfolio',{
-			title: "포트폴리오 | 웹퍼블리셔 김신영",
-			pageTitle: "포트폴리오",
-			pageName: "portfolio",
-			portfolios: result
+				title: "포트폴리오 | 웹퍼블리셔 김신영",
+				pageTitle: "포트폴리오",
+				pageName: "portfolio",
+				portfolios: result
+			});
 		});
-	});
 	});
 });
 
+<<<<<<< HEAD
 function searchContents(contents,keyword){
 	if(!!keyword){
 		return contents.match(keyword);
@@ -70,14 +70,16 @@ function searchTag(tag,tags){
 		return true;
 }
 
+=======
+>>>>>>> 2d2fd622cb8bba53f38f1e660ba2d878d8f00ce5
 router.get('/:name',(req,res,next)=>{
 	models.Portfolio.findOne({name:req.params.name}).then(data=>{
 		res.render('portfolio_view',{
-			title: "포트폴리오 | 웹퍼블리셔 김신영",
+			title: req.params.name+" - 포트폴리오 | 웹퍼블리셔 김신영",
 			pageTitle: "포트폴리오",
 			pageName: "portfolio",
 			data : data
-		});	
+		});
 	});
 });
 

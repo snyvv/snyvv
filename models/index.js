@@ -83,10 +83,11 @@ if(process.env.MIG == 'YES'){
 		return knex.schema
 			.dropTableIfExists('portfolios')
 			.dropTableIfExists('contacts')
-			.dropTableIfExists('blog')
+			.dropTableIfExists('blogs')
 			.dropTableIfExists('comments')
 			.dropTableIfExists('tags')
 			.dropTableIfExists('portfolios_tags')
+			.dropTableIfExists('blogs_tags')
 
 			// 테이블생성
 			.createTable('portfolios', (table) => {
@@ -108,10 +109,11 @@ if(process.env.MIG == 'YES'){
 				table.string('contents').notNullable();
 				table.timestamps();
 			})
-			.createTable('blog', (table) => {
-				console.log('* create table blog');
+			.createTable('blogs', (table) => {
+				console.log('* create table blogs');
 				table.increments('id').primary();
 				table.string('title').notNullable();
+				table.string('category').notNullable();
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
 				table.timestamps();
@@ -135,8 +137,13 @@ if(process.env.MIG == 'YES'){
 				table.string('eng');
 			})
 			.createTable('portfolios_tags', (table) => { // pebut table
-				console.log('* create table portfolio_tags');
+				console.log('* create table portfolios_tags');
 				table.integer('portfolio_id').unsigned().references('portfolios.id').notNullable();
+				table.integer('tag_id').unsigned().references('tags.id').notNullable();
+			})
+			.createTable('blogs_tags', (table) => { // pebut table
+				console.log('* create table blogs_tags');
+				table.integer('blog_id').unsigned().references('blogs.id').notNullable();
 				table.integer('tag_id').unsigned().references('tags.id').notNullable();
 			})
 			.catch(err=>{
@@ -187,43 +194,50 @@ if(process.env.MIG == 'YES'){
 					subname:"Samsung GALAXY S4",
 					image:"/img/portfolio/@img1.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				}),
 				models.Portfolio.create({
 					name:"파이라",
 					subname:"pyra",
 					image:"/img/portfolio/@img2.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				}),
 				models.Portfolio.create({
 					name:"국가식품클러스터",
 					subname:"FOODPOLIS",
 					image:"/img/portfolio/@img3.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				}),
 				models.Portfolio.create({
 					name:"101 GLOBAL",
 					image:"/img/portfolio/@img4.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				}),
 				models.Portfolio.create({
 					name:"삼성 갤럭시 메가",
 					subname:"Samsung GALAXY MEGA",
 					image:"/img/portfolio/@img5.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				}),
 				models.Portfolio.create({
 					name:"맥시코시",
 					subname:"MAXICOSI",
 					image:"/img/portfolio/@img6.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
 				})
 			]);
+		})
+		.then(result=>{
+			console.log('* many to many relation for portfolio');
+			 return Promise.all([
+		 		models.Tag.forge({id:1}).portfolios().attach([result[0],result[1]]),
+		 		models.Tag.forge({id:2}).portfolios().attach(result[1])
+			 ]);
 		})
 		.then(()=>{
 			console.log('create contact');
@@ -242,13 +256,43 @@ if(process.env.MIG == 'YES'){
 				})
 			]);
 		})
+		.then(()=>{
+			console.log('create blogs');
+			return Promise.all([
+				models.Blog.create({
+					category:"Jquery",
+					title:"제이쿼리 쓰는법",
+					contents:"잘씁니다",
+					date:moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+				}),
+				models.Blog.create({
+					category:"CSS",
+					title:"CSS 쓰는법",
+					contents:"잘씁니다",
+					date:moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+				}),
+				models.Blog.create({
+					category:"HTML",
+					title:"HTML 쓰는법",
+					contents:"잘씁니다",
+					date:moment('2013-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+				}),
+				models.Blog.create({
+					category:"node js",
+					title:"node js 쓰는법",
+					contents:"잘씁니다",
+					date:moment('2012-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+				})
+			]);
+		})
 		.then(result=>{
-				console.log('* many to many relation');
-				 return Promise.all([
-					 		models.Tag.forge({id:1}).portfolios().attach([result[0],result[1]]),
-					 		models.Tag.forge({id:2}).portfolios().attach(result[1])
-				 ]);
-			})
+			console.log('* many to many relation for blog');
+			 return Promise.all([
+		 		models.Tag.forge({id:3}).blogs().attach(result[3]),
+		 		models.Tag.forge({id:1}).blogs().attach([result[0],result[1],result[3]]),
+		 		models.Tag.forge({id:2}).blogs().attach(result[1])
+			 ]);
+		})
 		.catch(err=>{
 			console.log(err);
 		});
@@ -257,7 +301,6 @@ if(process.env.MIG == 'YES'){
 		console.log('* migration end, need to restart without MIG=YES');
 		return knex.raw('set FOREIGN_KEY_CHECKS=1');
 	});
-
 }
 
 
