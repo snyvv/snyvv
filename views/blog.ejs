@@ -16,14 +16,21 @@
 	</div>
 
 	<ul>
+		<% blogs.forEach(data=>{ %>
 		<li>
-			<strong>title</strong>
-			<span>date</span>
+			<strong><%=data.title%></strong>
+			<span><%= moment(data.date).format('YYYY.MM.DD'); %></span>
 			<button>recomm</button>
 			<button>like</button>
-			<div>contents</div>
-			<div><span class="tag">tag</span></div>
+			<div><%=data.contents%></div>
+			<div class="tags">
+				<% data.tags.forEach(tag=>{ %>
+					<span class="tag"><%= tag.name %></span>
+				<% }); %>
+			</div>
+			<a href="/blog/<%=data.title%>">자세히 보기</a>
 		</li>
+		<% }); %>
 	</ul>
 </section>
 <% include common/footer %>
