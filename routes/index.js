@@ -10,7 +10,7 @@ router.get('/', (req, res, next)=>{
 	});
 });
 
-router.post('/' (req, res, next)=>{
+router.post('/', (req, res, next)=>{
 	res.render('search',{
 		title: "keyword+ 검색결과 | 웹퍼블리셔 김신영",
 		pageTitle: "keyword 검색결과",
