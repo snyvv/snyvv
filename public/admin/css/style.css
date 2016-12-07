@@ -1,0 +1,63 @@
+/* font */
+@font-face {  font-family: 'jejuGothic';
+  font-style: normal;
+  font-weight: 100;
+  src: url(../fonts/jejuGothic.eot);
+  src: local("☺"),
+    url(../fonts/jejuGothic.eot?#iefix) format('embedded-opentype'),
+    url(../fonts/jejuGothic.woff2) format('woff2'),
+    url(../fonts/jejuGothic.woff) format('woff'),
+    url(../fonts/jejuGothic.ttf) format('truetype'),
+    url(../fonts/jejuGothic.svg#jejuGothic) format('svg');
+}
+
+/* HTML Reset */
+header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display:block}
+html,body{margin:0;padding:0}
+body{font-family:'jejuGothic','돋움',Dotum,'굴림',Gulim,Tahoma,Verdana,AppleGothic,sans-serif;font-size:16px;color:#323232;line-height:1.6em;letter-spacing:-0.5px;overflow-y:scroll}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-size:1em}
+ol,ul{margin:0;padding:0;list-style:none}
+div,li,dl,dt,dd,form,iframe,p,a,span,blockquote,i,figure{margin:0;padding:0;box-sizing:border-box}
+fieldset{margin:0;padding:0;border:0 solid transparent}
+legend,hr{display:none}
+label{vertical-align:middle}
+img{margin:0;padding:0;border:none;vertical-align:top}
+table,th,td{margin:0;padding:0;font-size:1em;border-spacing:0}
+input,textarea{margin:0;padding:0;background:#fff;font-family:'jejuGothic','돋움',Dotum,'굴림',Gulim,Tahoma,Verdana,AppleGothic,sans-serif;font-size:1em;color:#323232;vertical-align:middle;border:0;border-radius:0;-webkit-border-radius:0;-webkit-appearance:none;box-sizing:border-box;letter-spacing:-0.5px;outline:none}
+caption{visibility:hidden;width:0;height:0;margin:0;padding:0;font-size:0;line-height:0}
+select{margin:0;padding:0;font-family:'jejuGothic','돋움',Dotum,'굴림',Gulim,Tahoma,Verdana,AppleGothic,sans-serif;color:#323232;border-radius:0}
+button{font-family:'jejuGothic','돋움',Dotum,'굴림',Gulim,Tahoma,Verdana,AppleGothic,sans-serif;font-size:1em;margin:0;padding:0;border:0;cursor:pointer;background:none}
+button::-moz-focus-inner{border:0;padding:0}
+em{font-style:normal}
+
+/* setting */
+a,
+button{text-decoration:none;color:#323232}
+a.link:hover,
+button.link:hover{text-decoration:underline}
+a, input, button, textarea, .ui-selectmenu-button{
+	transition: all 100ms ease-in-out;
+	-o-transition: all 100ms ease-in-out;
+	-ms-transition: all 100ms ease-in-out;
+	-moz-transition: all 100ms ease-in-out;
+	-webkit-transition: all 100ms ease-in-out;
+}
+a:focus,
+button:focus,
+input[type=submit]:focus,
+input[type=reset]:focus{outline:1px dotted #1e90ff}
+.hidden{overflow:hidden;position:absolute;width:1px;height:1px;visibility:hidden}
+
+.header{height:70px;background:#d0d0d0;position:fixed;left:0;right:0;top:0;}
+.header .tit{position:absolute;left:10px;top:10px;}
+.header .tit a{display:inline-block;padding:10px;}
+.nav{position:absolute;right:10px;top:10px;}
+.nav li{float:left;margin-left:20px;}
+.nav a{display:inline-block;padding:10px;}
+.contents{padding:90px 20px 20px 20px;}
+
+.item{position:relative;}
+.inp-txt{height:36px;border:1px solid #d0d0d0;line-height:18px;padding:8px 10px;}
+.inp-txt[type=password]{font-family:'Arial',sans-serif;letter-spacing:1px;}
+textarea.inp-txt{height:100px;}
+.inp-txt:focus{border:1px solid #146ead}

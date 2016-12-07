@@ -35,7 +35,7 @@ router.get('/', (req, res, next)=>{
 				&& hasTag;			
 		});		
 		models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
-			res.render('portfolio',{
+			res.render('portfolio/list',{
 				title: "포트폴리오 | 웹퍼블리셔 김신영",
 				pageTitle: "포트폴리오",
 				pageName: "portfolio",
@@ -76,12 +76,13 @@ function searchTag(tag,tags){
 }
 
 router.get('/:name',(req,res,next)=>{
-	models.Portfolio.findOne({name:req.params.name}).then(data=>{
-		res.render('portfolio_view',{
+	models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
+		console.log(datas.toJSON());
+		res.render('portfolio/view',{
 			title: req.params.name+" - 포트폴리오 | 웹퍼블리셔 김신영",
-			pageTitle: "포트폴리오",
+			pageTitle: req.params.name,
 			pageName: "portfolio",
-			data : data
+			portfolios: datas.toJSON()
 		});
 	});
 });

@@ -1,3 +1,9 @@
-<h1><%= message %></h1>
+<!--<h1><%= message %></h1>
 <h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<pre><%= error.stack %></pre>-->
+<h1><%= error.status %></h1>
+<p><%= error.stack %></p>
+<div>
+	<button onclick="history.back(-1);">이전 페이지로 돌아가기</button>
+	<a href="/contact">관리자에게 문의하기</a>
+</div>

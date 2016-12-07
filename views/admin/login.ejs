@@ -2,9 +2,12 @@
 <section id="contents" class="contents">
 	<h2 class="page-tit"><%= pageTitle %></h2>
 	<form method="post" action="">
-		<input type="text" class="inp-txt">
-		<input type="password" class="inp-txt">
+		<input type="email" class="inp-txt" name="id">
+		<input type="password" class="inp-txt" name="password">
 		<input type="submit">
 	</form>
+	<% if (query.error) { %>
+		<p>로그인 정보를 다시 확인해 주세요.</p>
+	<% } %>
 </section>
 <% include common/footer %>
