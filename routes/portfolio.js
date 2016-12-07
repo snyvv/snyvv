@@ -75,9 +75,20 @@ function searchTag(tag,tags){
 		return true;
 }
 
+
+router.get('/tags',(req,res)=>{
+	models.Tag.findAll().then(data=>{
+		var tags = [];
+		data.toJSON().forEach(tag=>{
+			tags.push(tag.name);
+		});
+		res.json({tags:tags});
+	});
+});
+
 router.get('/:name',(req,res,next)=>{
 	models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
-		console.log(datas.toJSON());
+		//console.log(datas.toJSON());
 		res.render('portfolio/view',{
 			title: req.params.name+" - 포트폴리오 | 웹퍼블리셔 김신영",
 			pageTitle: req.params.name,
@@ -86,5 +97,6 @@ router.get('/:name',(req,res,next)=>{
 		});
 	});
 });
+
 
 module.exports = router;

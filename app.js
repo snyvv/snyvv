@@ -20,9 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: 'snyvv',
-	resave: false,
-	saveUninitialized: true,
-	cookie: {secure: true}
+	resave: true,
+	saveUninitialized: true
 }));
 
 app.use((req, res, next)=>{

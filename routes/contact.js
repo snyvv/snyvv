@@ -19,9 +19,12 @@ router.get('/', (req, res, next)=>{
 /* post contact */
 router.post('/', (req, res, next)=>{
 
+	//TODO 백엔드 밸리데이션 추가하기
 	if(!req.body.email){
-		res.json({status:500,msg:'EMAIL_ERROR'}).end();
+		// 백엔드 밸리데이션은 이러한 식으로
+		res.redirect('/contact?error='+'EMAIL_ERROR');
 	}
+
 	models.Contact.create({
 		category: req.body.category,
 		name: req.body.name,
@@ -29,12 +32,12 @@ router.post('/', (req, res, next)=>{
 		contents: req.body.contents
 	}).then(data=>{
 		var data = data.toJSON();
-
+		var category = translateCategory(data.category);
 		// setup e-mail data with unicode symbols
 		var mailOptions = {
 		    from: `"${data.name}" <${data.email}>`, // sender address
 		    to: `${config.gmailID}@gmail.com`, // list of receivers
-		    subject: `포트폴리오 사이트 문의사항 (${data.category})`, // Subject line
+		    subject: `포트폴리오 사이트 문의사항 (${category})`, // Subject line
 		    text: `${data.contents}`, // plaintext body
 		    html: `<p>${data.contents}</p>` // html body
 		};
@@ -42,18 +45,26 @@ router.post('/', (req, res, next)=>{
 		// send mail with defined transport object
 		transporter.sendMail(mailOptions, function(error, info){
 		    if(error){
-				console.log(error);
-		    	res.json({status:500,msg:'MAIL_ERROR'}).end();
+				res.redirect('/contact?error='+'MAIL_ERROR');
 		    } else {
-		    	res.json({status:200,msg:'OK'}).end();
+		    	res.redirect('/contact?success=true');
 			}
 		});
 	})
 	.catch(err=>{
-		console.log(err);
+		//모델을 세이브할때 에러가 났다면
+		res.redirect('/contact?error='+'MODEL_ERROR');
 	});
 	;
 });
+
+// TODO 영어 카테고리이름을 한글로 바꾸는 함수
+function translateCategory(category){
+	if(category == 'work')
+		return '사이트문의'
+	else
+		return category;
+}
 
 
 
