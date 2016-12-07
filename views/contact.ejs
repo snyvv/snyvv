@@ -23,12 +23,11 @@
 			<label for="inpEmail" class="inp-label">이메일</label>
 			<input type="email" id="inpEmail" class="inp-txt" name="email">
 		</div>
-
-		<div class="btn-set">
-			<div class="btn-right">
-				<input type="submit" value="보내기" class="btn btn-primary">
-			</div>
-		</div>
 	</form>
+	<div class="btn-set">
+		<div class="btn-right" onmousedown="sendContact()">
+			<input value="보내기" class="btn btn-primary">
+		</div>
+	</div>
 </section>
 <% include common/footer %>

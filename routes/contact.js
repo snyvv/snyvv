@@ -4,13 +4,8 @@ var nodemailer = require('nodemailer');
 var models = require('../models');
 var config = require('../config');
 
-var smtpTransport = nodemailer.createTransport("SMTP", {
-	service: 'Gmail',
-	auth: {
-		user: config.gmailID,
-		pass: config.gamilPW
-	}
-});
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport(`smtps://${config.gmailID}%40gmail.com:${config.gmailPW}@smtp.gmail.com`);
 
 /* get contact */
 router.get('/', (req, res, next)=>{
@@ -23,6 +18,10 @@ router.get('/', (req, res, next)=>{
 
 /* post contact */
 router.post('/', (req, res, next)=>{
+
+	if(!req.body.email){
+		res.json({status:500,msg:'EMAIL_ERROR'}).end();
+	}
 	models.Contact.create({
 		category: req.body.category,
 		name: req.body.name,
@@ -31,25 +30,35 @@ router.post('/', (req, res, next)=>{
 	}).then(data=>{
 		var data = data.toJSON();
 
+		// setup e-mail data with unicode symbols
 		var mailOptions = {
-			from: `${data.name} <${data.emil}>`,
-			to: config.gamilID,
-			subject: `SNYVV : ${data.name}님의 Contact`,
-			text: `${data.contents}`
+		    from: `"${data.name}" <${data.email}>`, // sender address
+		    to: `${config.gmailID}@gmail.com`, // list of receivers
+		    subject: `포트폴리오 사이트 문의사항 (${data.category})`, // Subject line
+		    text: `${data.contents}`, // plaintext body
+		    html: `<p>${data.contents}</p>` // html body
 		};
 
-		smtpTransport.sendMail(mailOptions, function(error, response){
-
-			if (error){
+		// send mail with defined transport object
+		transporter.sendMail(mailOptions, function(error, info){
+		    if(error){
 				console.log(error);
-				throw err;
-			} else {
-				console.log("Message sent : " + response.contents);
+		    	res.json({status:500,msg:'MAIL_ERROR'}).end();
+		    } else {
+		    	res.json({status:200,msg:'OK'}).end();
 			}
-			smtpTransport.close();
-			res.send('Thank U');
 		});
+	})
+	.catch(err=>{
+		console.log(err);
 	});
+	;
 });
+
+
+
+
+
+
 
 module.exports = router;

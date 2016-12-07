@@ -28,4 +28,29 @@ $(document).ready(function(){
 	            event.preventDefault();
 	    });
 	});
+
+	window.contact ={
+		sendContact: sendContact
+	}
+
 });
+
+function sendContact(){
+	$.post('/contact',{
+			category: $('#inpSort').val(),
+			contents: $('#inpCont').val(),
+			name: $('#inpName').val(),
+			email: $('#inpEmail').val(),
+		}).done(function(data){
+		if(data.msg =='OK'){
+			// input clear
+			// pop up
+			alert('good!!!');
+		} else {
+			alert('bad!!!!');
+		} 
+	});
+}
+
+
+
