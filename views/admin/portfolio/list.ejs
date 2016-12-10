@@ -1,0 +1,80 @@
+<% include ../common/header %>
+<section class="contents">
+	<div class="tit-wrap">
+		<h2 class="cont-tit"><%= pageTitle %></h2>
+	</div>
+
+	<ul class="list-stts">
+		<li>전체 포트폴리오<strong class="num">55</strong></li>
+		<li>전체 추천수<strong class="num">20</strong></li>
+		<li>최근 포트폴리오<strong class="num">2016.03.16</strong></li>
+	</ul>
+
+	<form method="post" action="" class="list-util">
+		<div class="util-right">
+			<div class="item">
+				<input type="text" class="inp-txt inp-date" placeholder="검색 시작일">
+			</div>
+			<div class="item">
+				<input type="text" class="inp-txt inp-date" placeholder="검색 종료일">
+			</div>
+			<select class="select">
+				<option>최신순으로 보기</option>
+				<option>오래된순으로 보기</option>
+			</select>
+			<div class="item">
+				<input type="text" class="inp-txt" placeholder="검색어 입력">
+			</div>
+			<input type="reset" class="btn btn-ico btn-default" value="검색 초기화">
+			<input type="submit" class="btn btn-default" value="검색">
+		</div>
+	</form>
+
+	<div class="list-table m-t-20">
+		<table>
+			<thead>
+				<tr>
+					<th scrope="col">
+						<div class="checkbox">
+							<label for="selectAll">전체선택</label>
+							<input type="checkbox" id="selectAll">
+						</div>
+					</th>
+					<th scrope="col">번호</th>
+					<th scrope="col">제목</th>
+					<th scrope="col">부제목</th>
+					<th scrope="col">날짜</th>
+					<th scrope="col">수정</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="paging-group">
+		<div class="btn-left">
+			<a href="" class="btn btn-default">선택 삭제</a>
+		</div>
+		<div class="paging">
+			<button class="prev">이전페이지</button>
+			<button class="on">1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button class="next">다음페이지</button>
+		</div>
+		<div class="btn-right">
+			<a href="/admin/portfolio/write" class="btn btn-primary">포트폴리오 작성</a>
+		</div>
+	</div>
+</section>
+<% include ../common/footer %>

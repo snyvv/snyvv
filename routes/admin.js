@@ -4,10 +4,14 @@ var config = require('../config');
 var multer= require('multer');
 
 router.get('/', (req, res, next)=>{
-	res.render('admin/login',{
-		title: "LOGIN | 웹퍼블리셔 김신영 ADMIN",
-		pageTitle: "LOGIN"
-	});
+	if(req.session.admin){
+		res.redirect('/admin/main');
+	}else{
+		res.render('admin/login',{
+			title: "LOGIN | 웹퍼블리셔 김신영 ADMIN",
+			pageTitle: "LOGIN"
+		});
+	}
 });
 
 router.post('/', (req, res, next)=>{
@@ -38,15 +42,29 @@ router.use((req,res,next)=>{
 
 router.get('/main', (req, res, next)=>{
 	res.render('admin/main',{
-		title: "웹퍼블리셔 김신영 ADMIN",
-		pageTitle: "main"
+		title: "ADMIN",
+		pageTitle: "홈"
+	});
+});
+
+router.get('/portfolio',(req,res)=>{
+	res.render('admin/portfolio/list',{
+		title:'포트폴리오 관리 | ADMIN',
+		pageTitle:'포트폴리오 관리'
 	});
 });
 
 router.get('/portfolio/write',(req,res)=>{
 	res.render('admin/portfolio/write',{
-		title:'쓰기',
-		pageTitle:'hi'
+		title:'포트폴리오 작성 | ADMIN',
+		pageTitle:'포트폴리오 작성'
+	});
+});
+
+router.get('/portfolio/modify',(req,res)=>{
+	res.render('admin/portfolio/modify',{
+		title:'포트폴리오 수정 | ADMIN',
+		pageTitle:'포트폴리오 수정'
 	});
 });
 
@@ -57,6 +75,42 @@ router.post('/portfolio/write',(req,res)=>{
 router.post('/portfolio/upload',(req,res)=>{
 
 });
+
+router.get('/blog',(req,res)=>{
+	res.render('admin/blog/list',{
+		title:'블로그 관리 | ADMIN',
+		pageTitle:'블로그 관리'
+	});
+});
+
+router.get('/blog/write',(req,res)=>{
+	res.render('admin/blog/write',{
+		title:'블로그 작성 | ADMIN',
+		pageTitle:'블로그 작성'
+	});
+});
+
+router.get('/blog/modify',(req,res)=>{
+	res.render('admin/blog/modify',{
+		title:'블로그 수정 | ADMIN',
+		pageTitle:'블로그 수정'
+	});
+});
+
+router.get('/comment',(req,res)=>{
+	res.render('admin/comment',{
+		title:'댓글 관리 | ADMIN',
+		pageTitle:'댓글 관리'
+	});
+});
+
+router.get('/contact',(req,res)=>{
+	res.render('admin/contact',{
+		title:'문의 관리 | ADMIN',
+		pageTitle:'문의 관리'
+	});
+});
+
 
 /* get login 
 router.get('/', (req, res, next)=>{

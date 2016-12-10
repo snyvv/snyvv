@@ -9,6 +9,7 @@ router.get('/', (req, res, next)=>{
 			title: "웹퍼블리셔 김신영",
 			pageTitle: "블로그",
 			pageName: "blog",
+			menu: 4,
 			blogs: datas.toJSON()
 		});
 	});

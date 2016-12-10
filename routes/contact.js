@@ -12,7 +12,8 @@ router.get('/', (req, res, next)=>{
   res.render('contact',{
 		title: "문의하기 | 웹퍼블리셔 김신영",
 		pageTitle : "문의하기",
-		pageName : "contact"
+		pageName : "contact",
+		menu: 3
 	});
 });
 

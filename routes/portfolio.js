@@ -39,6 +39,7 @@ router.get('/', (req, res, next)=>{
 				title: "포트폴리오 | 웹퍼블리셔 김신영",
 				pageTitle: "포트폴리오",
 				pageName: "portfolio",
+				menu: 2,
 				portfolios: result,
 				years: years
 			});

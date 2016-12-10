@@ -3,6 +3,8 @@
 $(document).ready(function(){
 	$('.select').selectmenu();
 	$('.inp-date').datepicker();
+	if($('.checkbox').length){$('.checkbox input').customInput();}
+	if($('.radio').length){$('.radio input').customInput();}
 	$(document).tooltip();
 
 	// search ui

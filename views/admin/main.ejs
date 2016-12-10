@@ -1,19 +1,21 @@
 <% include common/header %>
-<section id="contents" class="contents">
-	<h2 class="hidden"><%= pageTitle %></h2>
-	<section>
-		<h3>사이트 현황</h3>
+<section class="contents">
+	<div class="tit-wrap">
+		<h2 class="cont-tit"><%= pageTitle %></h2>
+	</div>
+	<section class="list-stts">
+		<h3 class="hidden">사이트 현황</h3>
 		<ul>
-			<li>Portfolios count</li>
-			<li>Blogs count</li>
-			<li>Comments count</li>
+			<li>전체 포트폴리오 <strong class="num">55건</strong></li>
+			<li>전체 블로그 <strong class="num">55건</strong></li>
+			<li>전체 댓글 <strong class="num">55건</strong></li>
 		</ul>
 	</section>
 
-	<section>
-		<h3>최근 피드백</h3>
+	<section class="list-feedback">
+		<h3 class="hidden">최근 피드백</h3>
 		<dl>
-			<dt>댓글</dt>
+			<dt>최근 댓글</dt>
 			<dd>이름</dd>
 			<dd>내용</dd>
 			<dd>컨텐츠 제목</dd>
@@ -22,7 +24,7 @@
 			<dd><a href="">이동하기</a></dd>
 		</dl>
 		<dl>
-			<dt>문의</dt>
+			<dt>최근 문의</dt>
 			<dd>이름</dd>
 			<dd>내용</dd>
 			<dd>메일</dd>
@@ -32,11 +34,8 @@
 		</dl>
 	</section>
 
-	<section>
-
-		<h3>최근 포트폴리오</h3>
-		<a href="/admin/portfolio/write" class="btn btn-lg btn-success">쓰기</a>
-		<a href="">전체리스트 보기</a>
+	<section class="list-table">
+		<h3 class="tit">최근 포트폴리오</h3>
 		<table>
 			<thead>
 				<tr>
@@ -55,11 +54,18 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="btn-set">
+			<div class="btn-left">
+				<a href="/admin/portfolio/write" class="btn btn-default">포트폴리오 작성</a>
+			</div>
+			<div class="btn-right">
+				<a href="" class="btn btn-primary">포트폴리오 관리</a>
+			</div>
+		</div>
 	</section>
 
-	<section>
-		<h3>최근 블로그</h3>
-		<a href="">전체리스트 보기</a>
+	<section class="list-table">
+		<h3 class="tit">최근 블로그</h3>
 		<table>
 			<thead>
 				<tr>
@@ -78,6 +84,14 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="btn-set">
+			<div class="btn-left">
+				<a href="/admin/portfolio/write" class="btn btn-default">블로그 작성</a>
+			</div>
+			<div class="btn-right">
+				<a href="" class="btn btn-success">블로그 관리</a>
+			</div>
+		</div>
 	</section>
 </section>
 <% include common/footer %>

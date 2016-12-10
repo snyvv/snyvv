@@ -1,7 +1,13 @@
 // JavaScript
 
 $(document).ready(function(){
-	var simplemde = new SimpleMDE({ 
-		element: document.getElementById('portfolioWrite') 
-	});
+	$('.select').selectmenu();
+	$('.inp-date').datepicker();
+	if($('.checkbox').length){$('.checkbox input').customInput();}
+	if($('.radio').length){$('.radio input').customInput();}
+	if($('#portfolioWrite').length){
+		var simplemde = new SimpleMDE({ 
+			element: document.getElementById('portfolioWrite') 
+		});
+	}
 });
