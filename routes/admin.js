@@ -4,6 +4,7 @@ var config = require('../config');
 var multer= require('multer');
 var path = require('path');
 var models = require('../models');
+var moment = require('moment');
 
 // 이미지들이 저장될곳
 var imagePath = { 
@@ -123,8 +124,6 @@ function createTagIfNotExist(data){
 }
 
 router.post('/portfolio/write',(req,res)=>{
-	
-
 		var tagPromise=[];
 		tagPromise.push(
 			models.Portfolio.create({
@@ -132,7 +131,7 @@ router.post('/portfolio/write',(req,res)=>{
 							subname: req.body.subname,
 							image: req.body.image,
 							contents: req.body.contents,
-							date:moment('12/06/2016','MM/DD/YYYY').toDate(),
+							date: moment('12/06/2016','MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
 			})
 		);
 		req.body.tag.split(', ').forEach(data=>{
@@ -142,11 +141,12 @@ router.post('/portfolio/write',(req,res)=>{
 		Promise.all(tagPromise)
 		.then(result=>{
 				portfolioId = result[0].get('id');
-		 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.split(1, result.length-1))
+		 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1))
 		})
 		.then(data =>{
 			res.redirect('/portfolio/'+req.body.name);
-		});
+		})
+		.catch(err=>{console.log(err);});
 });
 
 

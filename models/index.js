@@ -117,7 +117,7 @@ if(process.env.MIG == 'YES'){
 				table.string('category').notNullable();
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
-				table.integer('recommend');
+				table.integer('recommend').defaultTo(0);
 				table.timestamps();
 			})
 			.createTable('comments', (table) => {

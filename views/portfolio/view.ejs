@@ -4,8 +4,8 @@
 	<span><%= moment(data.date).format("YYYY.MM.DD hh:mm") %></span>
 	<img src="<%= data.image %>" alt="">
 	<button><%= data.recommend %></button>
-	<button>좋아요</button>
-	<div><%= data.contents %></div>
+	<button onclick="portfolio.recommend('<%= data.name %>')">좋아요</button>
+	<div><%- data.contents %></div>
 	<div>
 		<% data.tags.forEach(data=>{ %>
 			<a href="/portfolio?tag=<%= data.name %>" class="tag"><%= data.name %></a>

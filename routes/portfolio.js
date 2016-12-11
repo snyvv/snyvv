@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var models = require('../models');
 var moment = require('moment');
+var marked = require('marked');
 
 /* get portfolio */
 router.get('/', (req, res, next)=>{
@@ -90,13 +91,33 @@ router.get('/tags',(req,res)=>{
 // get view
 router.get('/:name',(req,res,next)=>{
 	models.Portfolio.where('name',req.params.name).fetch({withRelated:['tags']}).then(datas=>{
-		//console.log(datas.toJSON());
+		var data = datas.toJSON();
+		// marked로 해석해주기
+		data.contents = marked(data.contents);
 		res.render('portfolio/view',{
 			title: req.params.name+" - 포트폴리오 | 웹퍼블리셔 김신영",
 			pageTitle: req.params.name,
 			pageName: "portfolio",
-			data: datas.toJSON()
+			data: data
 		});
+	})
+	.catch(next);
+});
+
+// 추천수를 증가시킨다.
+router.post('/recommend/:name',(req,res)=>{
+	models.Portfolio.where('name',req.params.name).fetch()
+	.then(data=>{
+		console.log(data.get('recommend'));
+		console.log(typeof data.get('recommend'));
+		return models.Portfolio.update({recommend:data.get('recommend')+1},{id:data.get('id')});
+	})
+	.then(data=>{
+		res.json({status:200}).end();
+	})
+	.catch(err=>{
+		console.log(err);
+		res.json({status:500}).end();
 	});
 });
 

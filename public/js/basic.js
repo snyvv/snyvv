@@ -32,12 +32,19 @@ $(document).ready(function(){
 		    });
 		});
 	});
+	window.portfolio = {
+		recommend: function(name){
+			$.post('/portfolio/recommend/'+name).done(data=>{
+				if(data.status == 200){
+					alert('추천 하였습니다!');
+					location.reload();
+				} else {
+					alert('추천 실패');
+				}	
+			});
+		},
 
-	function recommend(){
-		$.post('/portfolio/recommend/1').then(data=>{
-			alert('recommend success');
-		});
-	}
+	};
 
 });
 
