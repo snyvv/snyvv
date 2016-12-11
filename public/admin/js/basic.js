@@ -10,4 +10,23 @@ $(document).ready(function(){
 			element: document.getElementById('portfolioWrite') 
 		});
 	}
+
+	$.get('/portfolio/tags').done(function(data){
+		// tag sorting
+		$('#portfolioTag').tokenfield({
+			autocomplete: {
+			source: data.tags,
+			delay: 100
+		},
+			showAutocompleteOnFocus: true
+		})
+		$('#portfolioTag').on('tokenfield:createtoken', function (event) {
+		    var existingTokens = $(this).tokenfield('getTokens');
+		    $.each(existingTokens, function(index, token) {
+		        if (token.value === event.attrs.value)
+		            event.preventDefault();
+		    });
+		});
+	});
+
 });

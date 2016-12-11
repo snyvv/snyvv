@@ -2,6 +2,48 @@ var express = require('express');
 var router = express.Router();
 var config = require('../config');
 var multer= require('multer');
+var path = require('path');
+var models = require('../models');
+
+// 이미지들이 저장될곳
+var imagePath = { 
+	portfolio :path.join(__dirname,'..','public','img', 'portfolio'),
+	blog : path.join(__dirname,'..','public','img', 'blog'), 
+};
+
+
+var storage = {
+	portfolio:
+		multer.diskStorage({
+		  // 서버에 저장할 폴더
+		  destination: function (req, file, cb) {
+		    cb(null, imagePath.portfolio);
+		  },
+		  // 서버에 저장할 파일 명
+		  filename: function (req, file, cb) {
+		    cb(null, file.originalname);
+		  }
+		}),
+	blog:
+		multer.diskStorage({
+		  // 서버에 저장할 폴더
+		  destination: function (req, file, cb) {
+		    cb(null, imagePath.blog);
+		  },
+		  // 서버에 저장할 파일 명
+		  filename: function (req, file, cb) {
+		    cb(null, file.originalname);
+		  }
+		})
+};
+
+// 파일 저장 설정
+var upload = {
+	portfolio : multer({ storage: storage.portfolio }),
+	blog : multer({ storage: storage.blog }),
+};
+
+
 
 router.get('/', (req, res, next)=>{
 	if(req.session.admin){
@@ -68,12 +110,49 @@ router.get('/portfolio/modify',(req,res)=>{
 	});
 });
 
+function createTagIfNotExist(data){
+	return models.Tag.findOne({name:data})
+	// TODO : 영어 
+	// 만약 없는 것이라면
+	.catch(err=>{
+		return models.Tag.create({
+			name:data,
+			eng:data
+		});
+	});
+}
+
 router.post('/portfolio/write',(req,res)=>{
-	res.redirect('/portfolio/'+ 1);
+	
+
+		var tagPromise=[];
+		tagPromise.push(
+			models.Portfolio.create({
+							name: req.body.name,
+							subname: req.body.subname,
+							image: req.body.image,
+							contents: req.body.contents,
+							date:moment('12/06/2016','MM/DD/YYYY').toDate(),
+			})
+		);
+		req.body.tag.split(', ').forEach(data=>{
+			tagPromise.push(createTagIfNotExist(data));
+		});
+
+		Promise.all(tagPromise)
+		.then(result=>{
+				portfolioId = result[0].get('id');
+		 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.split(1, result.length-1))
+		})
+		.then(data =>{
+			res.redirect('/portfolio/'+req.body.name);
+		});
 });
 
-router.post('/portfolio/upload',(req,res)=>{
 
+// upload file
+router.post('/portfolio/upload', upload.portfolio.array('file',20) ,(req,res)=>{
+	res.json({status:200}).end();
 });
 
 router.get('/blog',(req,res)=>{
