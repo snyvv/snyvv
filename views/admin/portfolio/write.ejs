@@ -3,18 +3,26 @@
 	<h1>글쓰기</h1>
    <form method="post" action="/admin/portfolio/write">   
       <input type="text" class="inp-txt" name="name" placeholder="제목">
-      <input type="text" class="inp-txt" name="date" placeholder="날짜">
+      <input type="text" class="inp-txt" name="date" placeholder="날짜 (MM/DD/YYYY)">
       <input type="text" class="inp-txt" name="subname" placeholder="영어이름">
       <input type="text" class="inp-txt" name="image" placeholder="대표이미지">
       <textarea id="portfolioWrite" name="contents"></textarea>
+
+      <div class="item">
+         <label for="portfolioTag">태그</label>
+         <input type="text" id="portfolioTag" class="inp-txt" name="tag" placeholder="전체 태그">
+      </div>
       <input type="submit" class="inp-txt" value="글올리기">
    </form>
 
    <br>
    <br>
    <br>
-   <form method="post" action="/admin/portfolio/upload" enctype="multipart/form-data">
-   		<input type="file" name="image">
+
+   <form id="portfolio-dropzone" action="/admin/portfolio/upload" class="dropzone">
+      <div class="fallback">
+       <input name="file" type="file" multiple/>
+     </div>
    </form>
 </section>
 <% include ../common/footer %>

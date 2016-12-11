@@ -136,7 +136,7 @@ if(process.env.MIG == 'YES'){
 			.createTable('tags', (table) => {
 				console.log('* create table tags');
 				table.increments('id').primary();
-				table.string('name');
+				table.string('name').unique();
 				table.string('eng');
 			})
 			.createTable('portfolios_tags', (table) => { // pebut table
