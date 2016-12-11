@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var models = require('../models');
 
 /* get home */
 router.get('/', (req, res, next)=>{
@@ -17,5 +18,22 @@ router.post('/', (req, res, next)=>{
 		pageName: "search"
 	});
 });
+
+router.get('/search',(req,res,next)=>{
+	models.Portfolio.searchAll(req.query.key)
+	.then(data=>{
+		console.log(data);
+		res.send('search Complete');
+	})
+	.catch(err=>{
+		console.log(err);
+		res.send('error');
+	});
+
+});
+
+/*
+sear
+*/
 
 module.exports = router;
