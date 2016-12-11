@@ -7,6 +7,7 @@ module.exports = {
 		title: joi.string(),
 		category: joi.string(),
 		contents: joi.string(),
+		recommend: joi.number(),
     date: joi.string()
 	},
 	tags: function(){

@@ -76,7 +76,7 @@ function searchTag(tag,tags){
 		return true;
 }
 
-
+// tag
 router.get('/tags',(req,res)=>{
 	models.Tag.findAll().then(data=>{
 		var tags = [];
@@ -87,17 +87,22 @@ router.get('/tags',(req,res)=>{
 	});
 });
 
+// get view
 router.get('/:name',(req,res,next)=>{
-	models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
+	models.Portfolio.where('name',req.params.name).fetch({withRelated:['tags']}).then(datas=>{
 		//console.log(datas.toJSON());
 		res.render('portfolio/view',{
 			title: req.params.name+" - 포트폴리오 | 웹퍼블리셔 김신영",
 			pageTitle: req.params.name,
 			pageName: "portfolio",
-			portfolios: datas.toJSON()
+			data: datas.toJSON()
 		});
 	});
 });
 
+// post comment
+router.post('/:name',(req,res,next)=>{
+	//models.Comment
+});
 
 module.exports = router;

@@ -1,17 +1,41 @@
 <% include ../common/header %>
 <section id="contents" class="contents">
-	<h2 class="page-tit"><%= pageTitle %></h2>
-	<span>date</span>
-	<button>추천</button>
+	<h2 class="page-tit"><%= data.title %></h2>
+	<span><%= moment(data.date).format("YYYY.MM.DD hh:mm") %></span>
+	<span><%= data.category %></span>
+	<button><%= data.recommend %></button>
 	<button>좋아요</button>
-	<div>컨텐츠</div>
-	<div><span class="tag">tag</span></div>
-	<div>소셜댓글(F, K, T)</div>
+	<div><%= data.contents %></div>
 	<div>
-		<textarea name="contents"></textarea>
-		<input type="text" name="name">
-		<input type="password" name="password">
-		<input type="email" name="email">
+		<% data.tags.forEach(data=>{ %>
+			<a href="/portfolio?tag=<%= data.name %>" class="tag"><%= data.name %></a>
+		<% }); %>
 	</div>
+	<ul>
+		<% data.comments.forEach(com=>{ %>
+		<li>
+			<%= com.name %>
+			<%= com.comments %>
+			<button>수정</button>
+			<button>삭제</button>
+			<input type="password" class="inp-txt">
+			<div id="commentUpdateForm<%=com.id%>" style="display:none">
+				<form method="post" action="/blog/<%=data.id%>/comments/<%=com.id%>">
+					<textarea class="inp-txt" name="comments" value="<%= com.comments %>"></textarea>
+					<input type="text" class="inp-txt" name="name" value="<%= com.name %>">
+					<input type="password" class="inp-txt" name="password">
+					<input type="submit" value="등록">
+				</form>
+			</div>
+		</li>
+		<% }); %>
+	</ul>
+	<div>소셜댓글(F, K, T)</div>
+	<form method="post" action="/blog/<%=data.id%>/comments">
+		<textarea class="inp-txt" name="comments"></textarea>
+		<input type="text" class="inp-txt" name="name">
+		<input type="password" class="inp-txt" name="password">
+		<input type="submit" value="등록">
+	</form>
 </section>
 <% include ../common/footer %>

@@ -20,7 +20,7 @@
 		<li>
 			<strong><%=data.title%></strong>
 			<span><%= moment(data.date).format('YYYY.MM.DD'); %></span>
-			<button>recomm</button>
+			<span><%= data.recommend %></span>
 			<button>like</button>
 			<div><%=data.contents%></div>
 			<div class="tags">
@@ -28,7 +28,7 @@
 					<span class="tag"><%= tag.name %></span>
 				<% }); %>
 			</div>
-			<a href="/blog/<%=data.title%>">자세히 보기</a>
+			<a href="/blog/<%=data.id%>">자세히 보기</a>
 		</li>
 		<% }); %>
 	</ul>

@@ -6,8 +6,9 @@ module.exports = {
 	validate:{
 		name: joi.string().regex(/^[a-zA-Z가-힣]{2,20}$/),
 		password: joi.string().min(8).max(20),
-		email: joi.string().email(),
 		comments: joi.string(),
+		date: joi.string(),
 		portfolio_id: joi.number(),
+		blog_id: joi.number()
 	}
 }

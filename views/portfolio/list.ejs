@@ -7,7 +7,6 @@
 		<button>목록형식으로 보기</button>
 		<button>목록 검색</button>
 	</div>
-
 	<form method="get" action="" class="list-sorting">
 		<div class="item">
 			<label for="sortYear">연도</label>
@@ -30,6 +29,10 @@
 		<input type="reset" value="초기화">
 	</form>
 
+	<% if(!!query.tag){ %>
+	<p>태그 : <%= query.tag %></p>
+	<% } %>
+
 	<ul class="portfolio-list">
 		<% portfolios.forEach(data=>{ %>
 		<li>
@@ -42,7 +45,7 @@
 						<span class="tag"><%= tag.name %></span>
 					<% }); %>
 				</div>
-				<span class="recomm">추천수</span>
+				<span class="recomm"><%= data.recommend %></span>
 			</div>
 			<div class="img"><img src="<%= data.image %>" alt=""></div>
 

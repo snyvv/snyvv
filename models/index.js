@@ -98,6 +98,7 @@ if(process.env.MIG == 'YES'){
 				table.string('image');
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
+				table.integer('recommend');
 				table.timestamps();
 			})
 			.createTable('contacts', (table) => {
@@ -116,6 +117,7 @@ if(process.env.MIG == 'YES'){
 				table.string('category').notNullable();
 				table.string('contents').notNullable();
 				table.datetime('date').notNullable();
+				table.integer('recommend');
 				table.timestamps();
 			})
 			.createTable('comments', (table) => {
@@ -123,11 +125,12 @@ if(process.env.MIG == 'YES'){
 				table.increments('id').primary();
 				table.string('comments').notNullable();
 				// not member
-				table.string('email');
+				table.string('date');
 				table.string('password');
 				table.string('name');
 				// when member
 				table.integer('portfolio_id').unsigned().references('portfolios.id');
+				table.integer('blog_id').unsigned().references('blogs.id');
 				table.timestamps();
 			})
 			.createTable('tags', (table) => {
@@ -158,10 +161,45 @@ if(process.env.MIG == 'YES'){
 		return Promise.all([
 				models.Comment.create({
 					name:"댓글러",
-					email:"guest2@guest.com",
+					date:"2016.12.12",
 					password:"11111111",
 					comments:"hihi",
 					portfolio_id:1
+				}),
+				models.Comment.create({
+					name:"댓글러",
+					date:"2016.12.12",
+					password:"11111111",
+					comments:"hihi",
+					portfolio_id:3
+				}),
+				models.Comment.create({
+					name:"댓글러",
+					date:"2016.12.12",
+					password:"11111111",
+					comments:"hihi",
+					blog_id:1
+				}),
+				models.Comment.create({
+					name:"댓글러",
+					date:"2016.12.12",
+					password:"11111111",
+					comments:"hihi",
+					blog_id:2
+				}),
+				models.Comment.create({
+					name:"댓글러",
+					date:"2016.12.12",
+					password:"11111111",
+					comments:"hihi",
+					blog_id:3
+				}),
+				models.Comment.create({
+					name:"댓글러",
+					date:"2016.12.12",
+					password:"11111111",
+					comments:"hihi",
+					portfolio_id:4
 				})
 			]);
 		})
@@ -194,41 +232,47 @@ if(process.env.MIG == 'YES'){
 					subname:"Samsung GALAXY S4",
 					image:"/img/portfolio/@img1.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Portfolio.create({
 					name:"파이라",
 					subname:"pyra",
 					image:"/img/portfolio/@img2.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Portfolio.create({
 					name:"국가식품클러스터",
 					subname:"FOODPOLIS",
 					image:"/img/portfolio/@img3.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Portfolio.create({
 					name:"101 GLOBAL",
 					image:"/img/portfolio/@img4.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Portfolio.create({
 					name:"삼성 갤럭시 메가",
 					subname:"Samsung GALAXY MEGA",
 					image:"/img/portfolio/@img5.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Portfolio.create({
 					name:"맥시코시",
 					subname:"MAXICOSI",
 					image:"/img/portfolio/@img6.jpg",
 					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				})
 			]);
 		})
@@ -263,25 +307,29 @@ if(process.env.MIG == 'YES'){
 					category:"Jquery",
 					title:"제이쿼리 쓰는법",
 					contents:"잘씁니다",
-					date:moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date:moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Blog.create({
 					category:"CSS",
 					title:"CSS 쓰는법",
 					contents:"잘씁니다",
-					date:moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date:moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Blog.create({
 					category:"HTML",
 					title:"HTML 쓰는법",
 					contents:"잘씁니다",
-					date:moment('2013-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date:moment('2013-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				}),
 				models.Blog.create({
 					category:"node js",
 					title:"node js 쓰는법",
 					contents:"잘씁니다",
-					date:moment('2012-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss')
+					date:moment('2012-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
 				})
 			]);
 		})

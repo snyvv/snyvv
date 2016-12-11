@@ -8,6 +8,7 @@ module.exports = {
 		subname: joi.string(),
 		contents: joi.string(),
 		image: joi.string(),
+		recommend: joi.number(),
     date: joi.string()
 	},
 	tags: function(){

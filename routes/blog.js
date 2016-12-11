@@ -15,14 +15,20 @@ router.get('/', (req, res, next)=>{
 	});
 });
 
-router.get('/:title',(req,res,next)=>{
-	models.Blog.findOne({title:req.params.title}).then(data=>{
+router.get('/:id',(req,res,next)=>{
+	models.Blog.where('id',req.params.id).fetch({withRelated:['tags','comments']}).then(datas=>{
 		res.render('blog/view',{
 			title: "블로그 | 웹퍼블리셔 김신영",
 			pageTitle: "블로그",
 			pageName: "blog",
-			data : data
+			data: datas.toJSON()
 		});
+	});
+});
+
+router.post('/:id/comments',(req,res,next)=>{
+	models.Comment.create({'comments':req.body.comments,'password':req.body.password,'name':req.body.name,'blog_id':req.params.id}).then(data=>{
+		res.redirect('/blog/'+req.params.id);
 	});
 });
 
