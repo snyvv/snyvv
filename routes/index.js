@@ -22,7 +22,7 @@ router.post('/', (req, res, next)=>{
 router.get('/search',(req,res,next)=>{
 	models.Portfolio.searchAll(req.query.key)
 	.then(data=>{
-		console.log(data);
+		console.log(data.toJSON());
 		res.send('search Complete');
 	})
 	.catch(err=>{
