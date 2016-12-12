@@ -10,5 +10,11 @@ module.exports = {
 		date: joi.string(),
 		portfolio_id: joi.number(),
 		blog_id: joi.number()
-	}
+	}/*,
+	method:{
+		getRecent : function(){
+			var models = require('./');
+			return models.Comment.orderBy('-updated_at').limit(5).fetchAll();
+		}
+	}*/
 }

@@ -68,6 +68,15 @@ const bookshelf = require('bookshelf')(knex)
 
 	models.transaction = knex.transaction;
 	models.query = knex.raw;
+	models.getAll = function(){
+		return Promise.all([
+			models.Portfolio.fetchAll({widthRelated:['tag']}),
+			models.Blog.fetchAll({widthRelated:['tag']}),
+			models.Tag.fetchAll(),
+			models.Contact.fetchAll(),
+			models.Comment.forge().orderBy('-updated_at').fetchAll()
+		]);
+	};
 	module.exports = models;
 
 if(process.env.MIG == 'YES'){
@@ -233,6 +242,45 @@ if(process.env.MIG == 'YES'){
 					image:"/img/portfolio/@img1.jpg",
 					contents:"컨텐츠입니다",
 					date: moment('2011-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
+				}),
+				models.Portfolio.create({
+					name:"파이라",
+					subname:"pyra",
+					image:"/img/portfolio/@img2.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
+				}),
+				models.Portfolio.create({
+					name:"국가식품클러스터",
+					subname:"FOODPOLIS",
+					image:"/img/portfolio/@img3.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
+				}),
+				models.Portfolio.create({
+					name:"101 GLOBAL",
+					image:"/img/portfolio/@img4.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
+				}),
+				models.Portfolio.create({
+					name:"삼성 갤럭시 메가",
+					subname:"Samsung GALAXY MEGA",
+					image:"/img/portfolio/@img5.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
+					recommend: 10
+				}),
+				models.Portfolio.create({
+					name:"맥시코시",
+					subname:"MAXICOSI",
+					image:"/img/portfolio/@img6.jpg",
+					contents:"컨텐츠입니다",
+					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 					recommend: 10
 				}),
 				models.Portfolio.create({

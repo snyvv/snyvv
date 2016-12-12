@@ -6,22 +6,21 @@
 	<section class="list-stts">
 		<h3 class="hidden">사이트 현황</h3>
 		<ul>
-			<li>전체 포트폴리오 <strong class="num">55건</strong></li>
-			<li>전체 블로그 <strong class="num">55건</strong></li>
-			<li>전체 댓글 <strong class="num">55건</strong></li>
+			<li>전체 포트폴리오 <strong class="num"><%=portfolios.length%>건</strong></li>
+			<li>전체 블로그 <strong class="num"><%=blogs.length%>건</strong></li>
+			<li>전체 댓글 <strong class="num"><%=comments.length%>건</strong></li>
 		</ul>
 	</section>
 
 	<section class="list-feedback">
 		<h3 class="hidden">최근 피드백</h3>
+		<strong>최근 댓글</strong>
 		<dl>
 			<dt>최근 댓글</dt>
-			<dd>이름</dd>
-			<dd>내용</dd>
-			<dd>컨텐츠 제목</dd>
-			<dd>종류(포트폴리오, 블로그)</dd>
-			<dd><a href="">상세보기</a></dd>
-			<dd><a href="">이동하기</a></dd>
+			<% comments.forEach((data,index)=>{ %>
+				<% if(index < 4) {return;} %>
+				<dd><%= data.name %>&#47;<%= data.comments %>&#47;<%= data.date %>&#47;<a href="">상세보기</a>&#47;<a href="">이동하기</a></dd>
+			<% }); %>
 		</dl>
 		<dl>
 			<dt>최근 문의</dt>
