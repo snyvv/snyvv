@@ -5,9 +5,9 @@
 	</div>
 
 	<ul class="list-stts">
-		<li>전체 포트폴리오<strong class="num">55</strong></li>
-		<li>전체 추천수<strong class="num">20</strong></li>
-		<li>최근 포트폴리오<strong class="num">2016.03.16</strong></li>
+		<li>전체 포트폴리오<strong class="num"><%= data.length %></strong></li>
+		<li>전체 추천수<strong class="num"><%= totalRecommend %></strong></li>
+		<li>최근 포트폴리오<strong class="num"><%= moment(data[0].date).format('YYYY.MM.DD') %></strong></li>
 	</ul>
 
 	<form method="post" action="" class="list-util">
@@ -44,17 +44,30 @@
 					<th scrope="col">제목</th>
 					<th scrope="col">부제목</th>
 					<th scrope="col">날짜</th>
+					<th scrope="col">추천수</th>
+					<th scrope="col">이동</th>
 					<th scrope="col">수정</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<% data.forEach((list,index)=>{ %>
+					<tr>
+						<td>
+							<div class="checkbox">
+								<label for="select<%= data.length-index %>">선택</label>
+								<input type="checkbox" id="select<%= data.length-index %>">
+							</div>
+						</td>
+						<td><%= data.length-index %></td>
+						<td><%= list.name %></td>
+						<td><%= list.subname %></td>
+						<td><%= moment(list.date).format("YYYY.MM.DD") %></td>
+						<td><%= list.recommend %></td>
+						<td><a href="/portfolio/<%= list.name %>">이동</a></td>
+						<td><a href="">수정</a></td>
+					</tr>
+					<% }); %>
 				</tr>
 			</tbody>
 		</table>

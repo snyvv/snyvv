@@ -44,8 +44,6 @@ var upload = {
 	blog : multer({ storage: storage.blog }),
 };
 
-
-
 router.get('/', (req, res, next)=>{
 	if(req.session.admin){
 		res.redirect('/admin/main');
@@ -98,10 +96,20 @@ router.get('/main', (req, res, next)=>{
 });
 
 router.get('/portfolio',(req,res)=>{
-	res.render('admin/portfolio/list',{
-		title:'포트폴리오 관리 | ADMIN',
-		pageTitle:'포트폴리오 관리'
-	});
+	models.Portfolio.forge().orderBy('-date').fetchAll().then(data=>{
+
+		var count = 0;
+		data.toJSON().map(d=>{
+			count += d.recommend;
+		});
+
+		res.render('admin/portfolio/list',{
+			title:'포트폴리오 관리 | ADMIN',
+			pageTitle:'포트폴리오 관리',
+			data: data.toJSON(),
+			totalRecommend: count
+		});
+	})
 });
 
 router.get('/portfolio/write',(req,res)=>{
@@ -131,29 +139,29 @@ function createTagIfNotExist(data){
 }
 
 router.post('/portfolio/write',(req,res)=>{
-		var tagPromise=[];
-		tagPromise.push(
-			models.Portfolio.create({
-							name: req.body.name,
-							subname: req.body.subname,
-							image: req.body.image,
-							contents: req.body.contents,
-							date: moment('12/06/2016','MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
-			})
-		);
-		req.body.tag.split(', ').forEach(data=>{
-			tagPromise.push(createTagIfNotExist(data));
-		});
+	var tagPromise=[];
+	tagPromise.push(
+		models.Portfolio.create({
+			name: req.body.name,
+			subname: req.body.subname,
+			image: req.body.image,
+			contents: req.body.contents,
+			date: moment('12/06/2016','MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
+		})
+	);
+	req.body.tag.split(', ').forEach(data=>{
+		tagPromise.push(createTagIfNotExist(data));
+	});
 
-		Promise.all(tagPromise)
-		.then(result=>{
-				portfolioId = result[0].get('id');
-		 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1))
-		})
-		.then(data =>{
-			res.redirect('/portfolio/'+req.body.name);
-		})
-		.catch(err=>{console.log(err);});
+	Promise.all(tagPromise)
+	.then(result=>{
+			portfolioId = result[0].get('id');
+	 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1))
+	})
+	.then(data =>{
+		res.redirect('/portfolio/'+req.body.name);
+	})
+	.catch(err=>{console.log(err);});
 });
 
 
