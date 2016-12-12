@@ -68,6 +68,15 @@ const bookshelf = require('bookshelf')(knex)
 
 	models.transaction = knex.transaction;
 	models.query = knex.raw;
+	models.getAll = function(){
+		return Promise.all([
+			models.Portfolio.fetchAll({widthRelated:['tag']}),
+			models.Blog.fetchAll({widthRelated:['tag']}),
+			models.Tag.fetchAll(),
+			models.Contact.fetchAll(),
+			models.Comment.forge().orderBy('-updated_at').fetchAll()
+		]);
+	};
 	module.exports = models;
 
 if(process.env.MIG == 'YES'){

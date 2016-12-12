@@ -84,9 +84,16 @@ router.use((req,res,next)=>{
 
 
 router.get('/main', (req, res, next)=>{
-	res.render('admin/main',{
-		title: "ADMIN",
-		pageTitle: "홈"
+	models.getAll().then(result=>{
+		res.render('admin/main',{
+			title: "ADMIN",
+			pageTitle: "홈",
+			portfolios: result[0].toJSON(),
+			blogs: result[1].toJSON(),
+			tags: result[2].toJSON(),
+			contacts: result[3].toJSON(),
+			comments: result[4].toJSON()
+		});
 	});
 });
 
