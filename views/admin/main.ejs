@@ -59,7 +59,7 @@
 				<% portfolios.forEach((data,index)=>{ %>
 				<% if(index > 4) {return;} %>
 				<tr>
-					<td><%= data.id %></td>
+					<td><%= portfolios.length-index %></td>
 					<td><%= data.name %></td>
 					<td><%= data.subname %></td>
 					<td><%= moment(data.date).format("YYYY.MM.DD") %></td>
