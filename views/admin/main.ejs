@@ -14,7 +14,6 @@
 
 	<section class="list-feedback">
 		<h3 class="hidden">최근 피드백</h3>
-		<strong>최근 댓글</strong>
 		<dl>
 			<dt>최근 댓글</dt>
 			<% comments.forEach((data,index)=>{ %>
@@ -31,12 +30,15 @@
 		</dl>
 		<dl>
 			<dt>최근 문의</dt>
-			<dd>이름</dd>
-			<dd>내용</dd>
-			<dd>메일</dd>
-			<dd>구분</dd>
-			<dd><a href="">상세보기</a></dd>
-			<dd><a href="">이동하기</a></dd>
+			<% contacts.forEach((data,index)=>{ %>
+				<% if(index > 4) {return;} %>
+				<dd><%= data.name %>&#47;
+					<%= data.contents %>&#47;
+					<%= moment(data.updated_at).format("YYYY.MM.DD hh:mm") %>&#47;
+					<%= data.email %>&#47;
+					<%= data.category %>&#47;
+					<a href="">상세보기</a></dd>
+			<% }); %>
 		</dl>
 	</section>
 
@@ -49,15 +51,22 @@
 					<th scrope="col">제목</th>
 					<th scrope="col">부제목</th>
 					<th scrope="col">날짜</th>
+					<th scrope="col">이동</th>
+					<th scrope="col">수정</th>
 				</tr>
 			</thead>
 			<tbody>
+				<% portfolios.forEach((data,index)=>{ %>
+				<% if(index > 4) {return;} %>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td><%= data.id %></td>
+					<td><%= data.name %></td>
+					<td><%= data.subname %></td>
+					<td><%= moment(data.date).format("YYYY.MM.DD") %></td>
+					<td><a href="/portfolio/<%= data.name %>">이동</a></td>
+					<td><a href="">수정</a></td>
 				</tr>
+				<% }); %>
 			</tbody>
 		</table>
 		<div class="btn-set">
