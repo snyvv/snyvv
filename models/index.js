@@ -282,45 +282,6 @@ if(process.env.MIG == 'YES'){
 					contents:"컨텐츠입니다",
 					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
 					recommend: 10
-				}),
-				models.Portfolio.create({
-					name:"파이라",
-					subname:"pyra",
-					image:"/img/portfolio/@img2.jpg",
-					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					recommend: 10
-				}),
-				models.Portfolio.create({
-					name:"국가식품클러스터",
-					subname:"FOODPOLIS",
-					image:"/img/portfolio/@img3.jpg",
-					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					recommend: 10
-				}),
-				models.Portfolio.create({
-					name:"101 GLOBAL",
-					image:"/img/portfolio/@img4.jpg",
-					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					recommend: 10
-				}),
-				models.Portfolio.create({
-					name:"삼성 갤럭시 메가",
-					subname:"Samsung GALAXY MEGA",
-					image:"/img/portfolio/@img5.jpg",
-					contents:"컨텐츠입니다",
-					date: moment('2014-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					recommend: 10
-				}),
-				models.Portfolio.create({
-					name:"맥시코시",
-					subname:"MAXICOSI",
-					image:"/img/portfolio/@img6.jpg",
-					contents:"컨텐츠입니다",
-					date: moment('2015-10-12 00:00:00').format('YYYY-MM-DD HH:mm:ss'),
-					recommend: 10
 				})
 			]);
 		})

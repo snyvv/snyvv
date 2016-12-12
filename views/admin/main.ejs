@@ -18,8 +18,15 @@
 		<dl>
 			<dt>최근 댓글</dt>
 			<% comments.forEach((data,index)=>{ %>
-				<% if(index < 4) {return;} %>
-				<dd><%= data.name %>&#47;<%= data.comments %>&#47;<%= data.date %>&#47;<a href="">상세보기</a>&#47;<a href="">이동하기</a></dd>
+				<% if(index > 4) {return;} %>
+				<dd><%= data.name %>&#47;
+					<%= data.comments %>&#47;<%= data.date %>&#47;
+					<% if(!!data.portfolio_id){ %>
+						포트폴리오
+					<% }else{ %>
+						블로그
+					<% } %>
+					<a href="">이동하기</a></dd>
 			<% }); %>
 		</dl>
 		<dl>
