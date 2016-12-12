@@ -1,47 +1,44 @@
-<% include common/header %>
+<% include header %>
 <section id="contents" class="contents">
 	<h2 class="page-tit"><%= pageTitle %></h2>
-	<div>검색어 : keyword</div>
-	<div>태그일경우 태그 : tag</div>
-	<p>??건의 검색결과가 있습니다.</p>
+	<div>검색어 : <%= query.search%></div>
+	
+	<p><%= searchCount%>건의 검색결과가 있습니다.</p>
 
-	<section>
-		<h3>태그</h3>
-		<ul>
-			<li>
-				<a href="" class="tag">tag1</a>
-				<a href="" class="tag">tag2</a>
-			</li>
-		</ul>
-	</section>
 
 	<section>
 		<h3>포트폴리오</h3>
 		<ul>
-			<li>
-				<a href="">
-					제목 내용 컨텐츠<strong>검색어</strong>컨텐츠컨텐츠 날짜 
-				</a>
-			</li>
+			<% portfolios.forEach(data=>{%>
+				<li>
+					<a href="/portfolio/<%=data.name%>">
+						<%=data.name%>
+						<%=data.subname%>
+						<%= moment(data.date).format('YYYY/MM/DD')%>
+					</a>
+				</li>
+			<%});%>
 		</ul>
 	</section>
-
+	<% if (portfolios.length == 0) {%>
+		<p>검색결과가 없습니다.</p>
+	<%}%>
 	<section>
 		<h3>블로그</h3>
 		<ul>
-			<li>
-				<a href="">
-					제목<strong>검색어</strong>제목제목 내용 컨텐츠 날짜
-				</a>
-			</li>
-			<li>
-				<a href="">
-					제목<strong>검색어</strong>제목제목 내용 컨텐츠 날짜
-				</a>
-			</li>
+			<% blogs.forEach(data=>{%>
+				<li>
+					<a href="/blog/<%=data.id%>">
+						<%=data.title%>
+						<%=data.category%>
+						<%= moment(data.date).format('YYYY/MM/DD')%>
+					</a>
+				</li>
+			<%});%>
 		</ul>
 	</section>
-
-	<p>검색결과가 없습니다.</p>
+	<% if (blogs.length == 0) {%>
+		<p>검색결과가 없습니다.</p>
+	<%}%>
 </section>
-<% include common/footer %>
+<% include footer %>

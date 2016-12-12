@@ -18,7 +18,14 @@ router.get('/', (req, res, next)=>{
 		tags = tags.filter(tag => {return tag != ' ' && tag != '';});
 	}
 
-	models.Portfolio.fetchAll({withRelated: ['tags']})
+	var promise;
+	if(req.query.keyword){
+		promise = models.Portfolio.searchAll(req.query.keyword);
+	} else {
+		promise = models.Portfolio.fetchAll({withRelated: ['tags']});
+	}
+
+	promise
 	.then(datas=>{		
 		//console.log(datas.serialize()[0].tags);
 		var result = datas.serialize().filter(data => {
@@ -31,19 +38,17 @@ router.get('/', (req, res, next)=>{
 					hasTag = false;
 				}
 			});
-			return searchContents(data.contents, req.query.keyword)
-				&& searchDate(data.date, req.query.year)
+			return searchDate(data.date, req.query.year)
 				&& hasTag;			
-		});		
-		models.Portfolio.fetchAll({withRelated:['tags']}).then(datas=>{
-			res.render('portfolio/list',{
-				title: "포트폴리오 | 웹퍼블리셔 김신영",
-				pageTitle: "포트폴리오",
-				pageName: "portfolio",
-				menu: 2,
-				portfolios: result,
-				years: years
-			});
+		});
+
+		res.render('portfolio/list',{
+			title: "포트폴리오 | 웹퍼블리셔 김신영",
+			pageTitle: "포트폴리오",
+			pageName: "portfolio",
+			menu: 2,
+			portfolios: result,
+			years: years
 		});
 	});
 });
@@ -108,8 +113,6 @@ router.get('/:name',(req,res,next)=>{
 router.post('/recommend/:name',(req,res)=>{
 	models.Portfolio.where('name',req.params.name).fetch()
 	.then(data=>{
-		console.log(data.get('recommend'));
-		console.log(typeof data.get('recommend'));
 		return models.Portfolio.update({recommend:data.get('recommend')+1},{id:data.get('id')});
 	})
 	.then(data=>{

@@ -20,16 +20,24 @@ router.post('/', (req, res, next)=>{
 });
 
 router.get('/search',(req,res,next)=>{
-	models.Portfolio.searchAll(req.query.key)
-	.then(data=>{
-		console.log(data.toJSON());
-		res.send('search Complete');
-	})
-	.catch(err=>{
-		console.log(err);
-		res.send('error');
-	});
+	Promise.all([
+		models.Portfolio.searchAll(req.query.search),
+		models.Blog.searchAll(req.query.search)
+	])
+	.then(result=>{
+		var portfolios = result[0].toJSON();
+		var blogs = result[1].toJSON();
 
+		res.render('common/search',{
+			title: "keyword+ 검색결과 | 웹퍼블리셔 김신영",
+			pageTitle: "keyword 검색결과",
+			pageName: "search",
+			searchCount : portfolios.length + blogs.length,
+			portfolios : portfolios,
+			blogs : blogs,
+		});
+	})
+	.catch(next);
 });
 
 /*
