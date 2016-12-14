@@ -119,13 +119,6 @@ router.get('/portfolio/write',(req,res)=>{
 	});
 });
 
-router.get('/portfolio/modify',(req,res)=>{
-	res.render('admin/portfolio/modify',{
-		title:'포트폴리오 수정 | ADMIN',
-		pageTitle:'포트폴리오 수정'
-	});
-});
-
 function createTagIfNotExist(data){
 	return models.Tag.findOne({name:data})
 	// TODO : 영어 
@@ -164,10 +157,16 @@ router.post('/portfolio/write',(req,res)=>{
 	.catch(err=>{console.log(err);});
 });
 
-
 // upload file
 router.post('/portfolio/upload', upload.portfolio.array('file',20) ,(req,res)=>{
 	res.json({status:200}).end();
+});
+
+router.get('/portfolio/modify',(req,res)=>{
+	res.render('admin/portfolio/modify',{
+		title:'포트폴리오 수정 | ADMIN',
+		pageTitle:'포트폴리오 수정'
+	});
 });
 
 router.get('/blog',(req,res)=>{
