@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var models = require('./models');
 var moment = require('moment');
-
+var util = require('./util');
 var app = express();
 
 // view engine setup
@@ -27,6 +27,8 @@ app.use(session({
 app.use((req, res, next)=>{
 	res.locals.query = req.query;
 	res.locals.moment = moment;
+  res.locals.admin = req.session.admin;
+  res.locals.util = util;
 	next();
 });
 

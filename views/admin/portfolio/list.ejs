@@ -65,7 +65,7 @@
 						<td><%= moment(list.date).format("YYYY.MM.DD") %></td>
 						<td><%= list.recommend %></td>
 						<td><a href="/portfolio/<%= list.name %>">이동</a></td>
-						<td><a href="">수정</a></td>
+						<td><a href="/admin/portfolio/modify/<%=list.name%>">수정</a></td>
 					</tr>
 					<% }); %>
 				</tr>

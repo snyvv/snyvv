@@ -32,6 +32,7 @@ $(document).ready(function(){
 		    });
 		});
 	});
+	
 	window.portfolio = {
 		recommend: function(name){
 			$.post('/portfolio/recommend/'+name).done(data=>{
@@ -47,5 +48,3 @@ $(document).ready(function(){
 	};
 
 });
-
-

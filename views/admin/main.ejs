@@ -25,7 +25,12 @@
 					<% }else{ %>
 						블로그
 					<% } %>
-					<a href="">이동하기</a></dd>
+					<% if(!!data.portfolio_id){ %>
+						<a href="/portfolio/id/<%=data.portfolio_id%>">이동하기</a>
+					<% }else{ %>
+						<a href="/blog/<%=data.blog_id%>">이동하기</a>
+					<% } %>
+					</dd>
 			<% }); %>
 		</dl>
 		<dl>

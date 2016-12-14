@@ -132,29 +132,37 @@ function createTagIfNotExist(data){
 }
 
 router.post('/portfolio/write',(req,res)=>{
-	var tagPromise=[];
-	tagPromise.push(
-		models.Portfolio.create({
-			name: req.body.name,
-			subname: req.body.subname,
-			image: req.body.image,
-			contents: req.body.contents,
-			date: moment('12/06/2016','MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
-		})
-	);
-	req.body.tag.split(', ').forEach(data=>{
-		tagPromise.push(createTagIfNotExist(data));
-	});
+   var tagPromise=[];
+   tagPromise.push(
+      models.Portfolio.create({
+         name: req.body.name,
+         subname: req.body.subname,
+         image: req.body.image,
+         contents: req.body.contents,
+         date: moment(req.body.date,'MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
+      })
+   );
 
-	Promise.all(tagPromise)
-	.then(result=>{
-			portfolioId = result[0].get('id');
-	 		return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1))
-	})
-	.then(data =>{
-		res.redirect('/portfolio/'+req.body.name);
-	})
-	.catch(err=>{console.log(err);});
+   var tags =req.body.tag.split(', ');
+   var hasTags = !(tags.length==1 && tags[0] =="");
+   if (hasTags){
+      req.body.tag.split(', ').forEach(data=>{
+         tagPromise.push(createTagIfNotExist(data));
+      });      
+   }
+
+   Promise.all(tagPromise)
+   .then(result=>{
+         portfolioId = result[0].get('id');
+         if(hasTags)   
+             return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1));
+          else 
+             return Promise.resolve();
+   })
+   .then(data =>{
+      res.redirect('/portfolio/'+req.body.name);
+   })
+   .catch(err=>{console.log(err);});
 });
 
 // upload file
@@ -162,11 +170,56 @@ router.post('/portfolio/upload', upload.portfolio.array('file',20) ,(req,res)=>{
 	res.json({status:200}).end();
 });
 
-router.get('/portfolio/modify',(req,res)=>{
-	res.render('admin/portfolio/modify',{
-		title:'포트폴리오 수정 | ADMIN',
-		pageTitle:'포트폴리오 수정'
+router.get('/portfolio/modify/:name',(req,res)=>{
+	models.Portfolio.forge({name:req.params.name}).fetch({withRelated:['tags']}).then(data=>{
+		var tags ="";
+		data.toJSON().tags.forEach(tag=>{
+			tags += tag.name+",";
+		});
+
+		res.render('admin/portfolio/modify',{
+			title:'포트폴리오 수정 | ADMIN',
+			pageTitle: req.params.name + ' 수정',
+			portfolio: data.toJSON(),
+			tags: tags
+		});
 	});
+});
+
+router.post('/portfolio/modify',(req,res)=>{
+	var tagPromise=[];
+
+	tagPromise.push(
+		models.Portfolio.update({
+			name: req.body.name,
+			subname: req.body.subname,
+			image: req.body.image,
+			contents: req.body.contents,
+			date: moment(req.body.date,'MM/DD/YYYY').format('YYYY-MM-DD HH:mm:ss'),
+		},{
+			id:req.body.id
+		})
+	);
+   var tags =req.body.tag.split(', ');
+   var hasTags = !(tags.length==1 && tags[0] =="");
+   if (hasTags){
+      req.body.tag.split(', ').forEach(data=>{
+         tagPromise.push(createTagIfNotExist(data));
+      });      
+   }
+
+   Promise.all(tagPromise)
+   .then(result=>{
+         portfolioId = result[0].get('id');
+         if(hasTags)   
+             return models.Portfolio.forge({id:portfolioId}).tags().attach(result.splice(1, result.length-1));
+          else 
+             return Promise.resolve();
+   })
+   .then(data =>{
+      res.redirect('/portfolio/'+req.body.name);
+   })
+   .catch(err=>{console.log(err);});
 });
 
 router.get('/blog',(req,res)=>{

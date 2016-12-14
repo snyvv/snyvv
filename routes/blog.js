@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models');
+var marked = require('marked');
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  breaks: true
+});
+
+
 
 /* get home */
 router.get('/', (req, res, next)=>{

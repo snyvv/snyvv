@@ -1,16 +1,17 @@
 <% include ../common/header %>
 <section class="contents">
 	<h1><% pageTitle %></h1>
-   <form method="post" action="/admin/portfolio/write">  
-      <input type="text" class="inp-txt" name="name" placeholder="제목">
-      <input type="text" class="inp-txt" name="date" placeholder="날짜 (MM/DD/YYYY)">
-      <input type="text" class="inp-txt" name="subname" placeholder="영어이름">
-      <input type="text" class="inp-txt" name="image" placeholder="대표이미지">
-      <textarea id="portfolioWrite" name="contents"></textarea>
+   <form method="post" action="/admin/portfolio/modify"> 
+      <input type="hidden" name="id" value="<%=portfolio.id%>">
+      <input type="text" class="inp-txt" name="name" value="<%=portfolio.name%>" placeholder="제목">
+      <input type="text" class="inp-txt" name="date" value="<%=moment(portfolio.date).format("MM/DD/YYYY")%>" placeholder="날짜 (MM/DD/YYYY)">
+      <input type="text" class="inp-txt" name="subname" value="<%=portfolio.subname%>" placeholder="영어이름">
+      <input type="text" class="inp-txt" name="image" value="<%=portfolio.image%> placeholder="대표이미지">
+      <textarea id="portfolioWrite" name="contents"><%=portfolio.contents%></textarea>
 
       <div class="item">
          <label for="portfolioTag">태그</label>
-         <input type="text" id="portfolioTag" class="inp-txt" name="tag" placeholder="전체 태그">
+         <input type="text" id="portfolioTag" class="inp-txt" name="tag" placeholder="전체 태그" value="<%=tags%>">
       </div>
       <input type="submit" class="inp-txt" value="글올리기">
    </form>

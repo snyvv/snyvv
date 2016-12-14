@@ -3,6 +3,11 @@ var router = express.Router();
 var models = require('../models');
 var moment = require('moment');
 var marked = require('marked');
+marked.setOptions({
+  renderer: new marked.Renderer(),
+  breaks: true
+});
+
 
 /* get portfolio */
 router.get('/', (req, res, next)=>{
@@ -95,7 +100,7 @@ router.get('/tags',(req,res)=>{
 
 // get view
 router.get('/:name',(req,res,next)=>{
-	models.Portfolio.where('name',req.params.name).fetch({withRelated:['tags']}).then(datas=>{
+	models.Portfolio.where('name',req.params.name).fetch({withRelated:['tags','comments']}).then(datas=>{
 		var data = datas.toJSON();
 		// marked로 해석해주기
 		data.contents = marked(data.contents);
@@ -107,6 +112,13 @@ router.get('/:name',(req,res,next)=>{
 		});
 	})
 	.catch(next);
+});
+
+router.get('/id/:id',(req,res)=>{
+	models.Portfolio.forge({id:req.params.id}).fetch()
+	.then(data=>{
+		res.redirect('/portfolio/'+data.toJSON().name);
+	});
 });
 
 // 추천수를 증가시킨다.
@@ -126,7 +138,9 @@ router.post('/recommend/:name',(req,res)=>{
 
 // post comment
 router.post('/:name',(req,res,next)=>{
-	//models.Comment
+	models.Comment.create({'comments':req.body.comments,'password':req.body.password,'name':req.body.name,'portfolio_id':req.body.id}).then(data=>{
+		res.redirect('/portfolio/'+req.params.name);
+	});
 });
 
 module.exports = router;
